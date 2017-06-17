@@ -7,7 +7,7 @@ public class ArmMove : MonoBehaviour
     public bool isPlayer1;
     public bool isKeyboard;
 
-    public bool addBallForce;
+    bool addBallForce;
 
     [Space(5)]
     public GameObject handObj;

@@ -9,6 +9,7 @@ public class GameMaster : MonoBehaviour
     public int score2;
 
     public float gameTime;
+    public bool runTimer;
 
     float minutes;
     float seconds;
@@ -19,6 +20,10 @@ public class GameMaster : MonoBehaviour
     public GameObject rightHoop;
     BoxCollider2D rightHoopCol;
 
+    bool leftHoopScored;
+    bool rightHoopScored;
+
+
     public GameObject ballObj;
     CircleCollider2D ballCol;
     [Space(5)]
@@ -27,6 +32,8 @@ public class GameMaster : MonoBehaviour
 
     public TMP_Text minutesText;
     public TMP_Text secText;
+
+    public TMP_Text winText;
 
     //public TMP_Text scoreText1;
 
@@ -38,28 +45,60 @@ public class GameMaster : MonoBehaviour
         rightHoopCol = rightHoop.GetComponent<BoxCollider2D>();
 
         ballCol = ballObj.GetComponent<CircleCollider2D>();
+
+        winText.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
-        gameTime -= Time.deltaTime;
+        if (runTimer)
+        {
+            gameTime -= Time.deltaTime;
 
-        minutes = Mathf.Floor(gameTime / 60f);
-        seconds = Mathf.Floor(gameTime % 60f);
+            minutes = Mathf.Floor(gameTime / 60f);
+            seconds = Mathf.Floor(gameTime % 60f);
 
-        minutesText.text = minutes.ToString();
-        secText.text = seconds.ToString();
+            minutesText.text = minutes.ToString();
+            secText.text = seconds.ToString();
+
+            if (gameTime <= 0)
+            {
+                runTimer = false;
+            }
+        }
+        else
+        {
+            minutesText.text = ("0");
+            secText.text = ("0");
+        }
+
+
 
         if (leftHoopCol.IsTouching(ballCol))
         {
             // print("LEFT SCORE");
-            score2 += 1;
+
+            leftHoopScored = true;
+
+            if (leftHoopScored == true)
+            {
+                score2 += 1;
+                leftHoopScored = false;
+            }
         }
         else if (rightHoopCol.IsTouching(ballCol))
         {
             //  print("RIGHT SCORE");
-            score1 += 1;
+            float scoreTime = 0;
+            scoreTime += Time.deltaTime;
+
+            if (scoreTime >= 0.016f)
+            {
+                score1 += 1;
+                scoreTime = 0;
+            }
+
         }
 
         scoreText1.text = score1.ToString();
@@ -69,15 +108,21 @@ public class GameMaster : MonoBehaviour
         {
             if (score1 > score2)
             {
-                print("Player 1 Wins");
+                winText.gameObject.SetActive(true);
+
+                winText.text = "Player 1 Wins!";
             }
             else if (score2 > score1)
             {
-                print("Player 2 Wins");
+                winText.gameObject.SetActive(true);
+
+                winText.text = "Player 2 Wins!";
             }
             else if (score1 == score2 && score2 == score1)
             {
-                print("TIE");
+                winText.gameObject.SetActive(true);
+
+                winText.text = "Tie!";
             }
         }
     }
