@@ -4,16 +4,52 @@ using UnityEngine;
 
 public class ForeArm : MonoBehaviour {
 
-    public GameObject armObj;
+    public float rotateSpeed;
+
+    public float minRot;
+    public float maxRot;
+
+    bool canRotate;
+
+    //public GameObject armObj;
 
 	// Use this for initialization
-	void Start () {
+	void Start ()
+    {
+        canRotate = true;
 		
 	}
 	
 	// Update is called once per frame
 	void Update ()
     {
-        transform.position = new Vector3(armObj.transform.position.x + 4, armObj.transform.position.y + 5, armObj.transform.position.z);
+        if (canRotate)
+        {
+            if (Input.GetKey(KeyCode.J))
+            {
+                transform.Rotate(0, 0, rotateSpeed);
+            }
+            else if (Input.GetKey(KeyCode.L))
+            {
+                transform.Rotate(0, 0, -rotateSpeed);
+            }
+        }
+
+        //if (transform.rotation.z <= minRot && transform.rotation.z >= maxRot)
+        //{
+        //    canRotate = false;
+        //}
+        //else if (transform.rotation.z >= maxRot)
+        //{
+        //    canRotate = false;
+        //}
+        //else
+        //{
+        //    canRotate = true;
+        //}
+
+        print(canRotate.ToString());
+
+
     }
 }

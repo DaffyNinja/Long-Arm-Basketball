@@ -30,9 +30,7 @@ public class ArmMove : MonoBehaviour
     {
 
         ballCol = ballObj.GetComponent<CircleCollider2D>();
-
         armCol = armObj.GetComponent<CapsuleCollider2D>();
-
         playerCap = playerObj.GetComponent<CapsuleCollider2D>();
 
         addBallForce = false;
@@ -62,15 +60,17 @@ public class ArmMove : MonoBehaviour
 
         if (isPlayer1)
         {
-            if (canGrab)
+            if (canGrab) // Grab Ball
             {
                 if (isKeyboard)
                 {
-                    if (Input.GetKey(KeyCode.Space))
+                    if (Input.GetKey(KeyCode.Space)) // Hold
                     {
-                        ballObj.transform.parent = transform;
+                        ballObj.transform.parent = handObj.transform;
                         ballObj.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
                         ballObj.transform.position = handObj.transform.position;
+                       
+                      // ballObj.GetComponent<CircleCollider2D>().enabled = false;
 
                         addBallForce = true;
                     }
@@ -80,9 +80,10 @@ public class ArmMove : MonoBehaviour
                 {
                     if (Input.GetButton("RB Button"))
                     {
-                        ballObj.transform.parent = transform;
+                        ballObj.transform.parent = handObj.transform;
                         ballObj.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
                         ballObj.transform.position = handObj.transform.position;
+                       // ballObj.GetComponent<CircleCollider2D>().enabled = false;
 
                         addBallForce = true;
                     }
@@ -90,12 +91,13 @@ public class ArmMove : MonoBehaviour
 
             }
 
-            if (isKeyboard)
+            if (isKeyboard)  // Let Go
             {
                 if (Input.GetKeyUp(KeyCode.Space))
                 {
                     ballObj.transform.parent = null;
                     ballObj.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+                    //ballObj.GetComponent<CircleCollider2D>().enabled = true;
 
                     if (addBallForce == true)
                     {
@@ -110,6 +112,7 @@ public class ArmMove : MonoBehaviour
                 {
                     ballObj.transform.parent = null;
                     ballObj.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+                   // ballObj.GetComponent<CircleCollider2D>().enabled = true;
 
                     if (addBallForce == true)
                     {
@@ -119,7 +122,7 @@ public class ArmMove : MonoBehaviour
                 }
             }
         }
-        else  // player 1
+        else  // player 2
         {
             if (canGrab)
             {

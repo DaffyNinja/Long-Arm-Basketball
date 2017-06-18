@@ -14,7 +14,7 @@ public class PlayerMove : MonoBehaviour
 
     public bool isKeyboard;
 
-    public HingeJoint2D armJoint;
+   // public HingeJoint2D armJoint;
 
     // public BoxCollider2D groundCol;
 
@@ -60,21 +60,17 @@ public class PlayerMove : MonoBehaviour
                 {
                     arm.transform.Rotate(0, 0, rotateSpeed);
 
-                    JointMotor2D motor = armJoint.motor;
-
-                    motor.motorSpeed = -200f;
-
-                    armJoint.motor = motor;
+                    //JointMotor2D motor = armJoint.motor;
+                    //motor.motorSpeed = -200f;
+                    //armJoint.motor = motor;
                 }
                 else if (Input.GetKey(KeyCode.L))
                 {
                     arm.transform.Rotate(0, 0, -rotateSpeed);
 
-                    JointMotor2D motor = armJoint.motor;
-
-                    motor.motorSpeed = 200f;
-
-                    armJoint.motor = motor;
+                    //JointMotor2D motor = armJoint.motor;
+                    //motor.motorSpeed = 200f;
+                    //armJoint.motor = motor;
                 }
             }
             else
