@@ -35,21 +35,7 @@ public class ForeArm : MonoBehaviour {
             }
         }
 
-        //if (transform.rotation.z <= minRot && transform.rotation.z >= maxRot)
-        //{
-        //    canRotate = false;
-        //}
-        //else if (transform.rotation.z >= maxRot)
-        //{
-        //    canRotate = false;
-        //}
-        //else
-        //{
-        //    canRotate = true;
-        //}
-
-        print(canRotate.ToString());
-
+        //print(canRotate.ToString());
 
     }
 }
