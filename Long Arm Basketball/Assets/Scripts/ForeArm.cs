@@ -10,9 +10,9 @@ public class ForeArm : MonoBehaviour
     public float minRot;
     public float maxRot;
 
-    float angle;
-
     bool canRotate;
+    public bool rotateLeft;
+    public bool rotateRight;
 
     //public GameObject armObj;
 
@@ -28,37 +28,52 @@ public class ForeArm : MonoBehaviour
     {
         if (canRotate)
         {
-            //angle += Input.GetAxis("Vertical") * Time.deltaTime * rotateSpeed;
-            angle = Mathf.Clamp(angle, minRot, maxRot);
-            //transform.localRotation = Quaternion.AngleAxis(angle, Vector3.right);
 
             if (Input.GetKey(KeyCode.J))
             {
-                angle += rotateSpeed * Time.deltaTime;
 
-                // transform.Rotate(0, 0, angle);
 
-                transform.localRotation = Quaternion.Euler(0, 0, angle);
+                if (transform.localRotation.z > -10)
+                {
+                    rotateLeft = true;
+
+                    if (rotateLeft)
+                    {
+                        transform.Rotate(0, 0, rotateSpeed);
+                    }
+                }
+                else
+                {
+                    rotateLeft = false;
+                }
+
+
 
             }
             else if (Input.GetKey(KeyCode.L))
             {
-                angle += rotateSpeed * Time.deltaTime;
 
-                //transform.Rotate(0, 0, -angle);
+                if (transform.localRotation.z < 180)
+                {
+                    rotateRight = true;
 
-                // transform.localRotation = Quaternion.AngleAxis(-angle, Vector2.left);
-
-                transform.localRotation = Quaternion.Euler(0, 0, -angle);
-
+                    if (rotateRight)
+                    {
+                        transform.Rotate(0, 0, -rotateSpeed);
+                    }
+                }
+                else
+                {
+                    rotateRight = false;
+                }
             }
-            else
-            {
-                angle = 0;
-            }
+
         }
 
-      
+        print(Quaternion.identity.eulerAngles.z);
+            
+
+
 
         //print(canRotate.ToString());
 

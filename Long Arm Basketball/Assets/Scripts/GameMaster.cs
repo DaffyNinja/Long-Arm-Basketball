@@ -8,6 +8,9 @@ public class GameMaster : MonoBehaviour
     public int score1;
     public int score2;
 
+    public float scoreTime;
+    float timer;
+
     public float gameTime;
     public bool runTimer;
 
@@ -81,22 +84,46 @@ public class GameMaster : MonoBehaviour
 
             leftHoopScored = true;
 
+            
             if (leftHoopScored == true)
             {
-                score2 += 1;
-                leftHoopScored = false;
+                timer += Time.deltaTime;
+
+                if (timer >= scoreTime)
+                {
+                    score2 += 1;
+                    leftHoopScored = false;
+                    timer = 0;
+                }
             }
+            else
+            {
+                timer = 0;
+            }
+
+
+
         }
         else if (rightHoopCol.IsTouching(ballCol))
         {
             //  print("RIGHT SCORE");
-            float scoreTime = 0;
-            scoreTime += Time.deltaTime;
 
-            if (scoreTime >= 0.016f)
+            rightHoopScored = true;
+
+            if (rightHoopScored == true)
             {
-                score1 += 1;
-                scoreTime = 0;
+                timer += Time.deltaTime;
+
+                if (timer >= scoreTime)
+                {
+                    score1 += 1;
+                    rightHoopScored = false;
+                    timer = 0;
+                }
+            }
+            else
+            {
+                timer = 0;
             }
 
         }
