@@ -7,6 +7,7 @@ public class ForeArm : MonoBehaviour
 
     public float rotateSpeed;
 
+    public float angleRot;
     public float minRot;
     public float maxRot;
 
@@ -14,8 +15,7 @@ public class ForeArm : MonoBehaviour
     public bool canMoveLeft;
     public bool canMoveRight;
 
-    private float rotationZ = 0f;
-    public float sensitivityZ = 2f;
+    public float angle;
 
     //public GameObject armObj;
 
@@ -30,64 +30,66 @@ public class ForeArm : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //ClampAngle(angleRot, minRot, maxRot);
 
-        if (transform.localEulerAngles.z <= 20 || transform.localEulerAngles.z >= 100)  // Right
-        {
-            canMoveLeft = false;
-            canMoveRight = true;
-        }
-        else
-        {
-            canMoveLeft = true;
-            canMoveRight = false;
-        }
+        //angleRot = ClampAngle(angleRot, -minRot, maxRot);
 
-        if (transform.localEulerAngles.z >= 180)  // Left
+     
+
+        if (angle < -360F)
         {
-            canMoveLeft = true;
-            canMoveRight = false;
+            angle += 360F;
         }
-        else
+        if (angle > 360F)
         {
-            canMoveLeft = false;
-            canMoveRight = true;
+            angle -= 360F;
         }
 
-        if (canMoveLeft && Input.GetKey(KeyCode.J))
+
+        if (transform.localEulerAngles.z >= angle)
         {
-            transform.Rotate(0, 0, rotateSpeed);
+            print("Left");
+
+            if (Input.GetKey(KeyCode.J))
+            {
+                transform.Rotate(0, 0, rotateSpeed);
+            }
         }
-        else if (canMoveRight && Input.GetKey(KeyCode.L))
+        else if (transform.localEulerAngles.z <= angle)
         {
-            transform.Rotate(0, 0, -rotateSpeed);
+            print("Right");
+
+            if (Input.GetKey(KeyCode.L))
+            {
+                transform.Rotate(0, 0, -rotateSpeed);
+            }
         }
 
 
         //if (Input.GetKey(KeyCode.J))
         //{
-        //    rotationZ += rotateSpeed * Time.deltaTime;
-        //    rotationZ = Mathf.Clamp(rotationZ, -minRot, maxRot);
-
-        //    // transform.Rotate(0, 0, rotationZ);
-
-        //    transform.Rotate(transform.localEulerAngles.x, transform.localEulerAngles.y, rotationZ);
-
+        //    transform.rotation = Quaternion.Euler(0, 0, 90);
         //}
         //else if (Input.GetKey(KeyCode.L))
         //{
-        //    rotationZ += rotateSpeed * Time.deltaTime;
-        //    rotationZ = Mathf.Clamp(rotationZ, -minRot, maxRot);
-
-        //    //transform.Rotate(0, 0, -rotationZ);
-
-        //    transform.Rotate(transform.localEulerAngles.x, transform.localEulerAngles.y, -rotationZ);
-        //}
-        //else
-        //{
-        //    rotationZ = 0;
+        //    transform.rotation = Quaternion.Euler(0, 0, -90);
         //}
 
-        print(transform.localEulerAngles.z);
+        // print(transform.localEulerAngles.z);
 
+    }
+
+    public static float ClampAngle(float angle, float min, float max)
+    {
+        if (angle < -360F)
+        {
+            angle += 360F;
+        }
+        if (angle > 360F)
+        {
+            angle -= 360F;
+        }
+
+        return Mathf.Clamp(angle, min, max);
     }
 }
