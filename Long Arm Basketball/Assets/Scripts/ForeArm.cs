@@ -11,8 +11,11 @@ public class ForeArm : MonoBehaviour
     public float maxRot;
 
     bool canRotate;
-    public bool rotateLeft;
-    public bool rotateRight;
+    public bool canMoveLeft;
+    public bool canMoveRight;
+
+    private float rotationZ = 0f;
+    public float sensitivityZ = 2f;
 
     //public GameObject armObj;
 
@@ -21,61 +24,70 @@ public class ForeArm : MonoBehaviour
     {
         canRotate = true;
 
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (canRotate)
+
+        if (transform.localEulerAngles.z <= 20 || transform.localEulerAngles.z >= 100)  // Right
         {
-
-            if (Input.GetKey(KeyCode.J))
-            {
-
-
-                if (transform.localRotation.z > -10)
-                {
-                    rotateLeft = true;
-
-                    if (rotateLeft)
-                    {
-                        transform.Rotate(0, 0, rotateSpeed);
-                    }
-                }
-                else
-                {
-                    rotateLeft = false;
-                }
-
-
-
-            }
-            else if (Input.GetKey(KeyCode.L))
-            {
-
-                if (transform.localRotation.z < 180)
-                {
-                    rotateRight = true;
-
-                    if (rotateRight)
-                    {
-                        transform.Rotate(0, 0, -rotateSpeed);
-                    }
-                }
-                else
-                {
-                    rotateRight = false;
-                }
-            }
-
+            canMoveLeft = false;
+            canMoveRight = true;
+        }
+        else
+        {
+            canMoveLeft = true;
+            canMoveRight = false;
         }
 
-        print(Quaternion.identity.eulerAngles.z);
-            
+        if (transform.localEulerAngles.z >= 180)  // Left
+        {
+            canMoveLeft = true;
+            canMoveRight = false;
+        }
+        else
+        {
+            canMoveLeft = false;
+            canMoveRight = true;
+        }
+
+        if (canMoveLeft && Input.GetKey(KeyCode.J))
+        {
+            transform.Rotate(0, 0, rotateSpeed);
+        }
+        else if (canMoveRight && Input.GetKey(KeyCode.L))
+        {
+            transform.Rotate(0, 0, -rotateSpeed);
+        }
 
 
+        //if (Input.GetKey(KeyCode.J))
+        //{
+        //    rotationZ += rotateSpeed * Time.deltaTime;
+        //    rotationZ = Mathf.Clamp(rotationZ, -minRot, maxRot);
 
-        //print(canRotate.ToString());
+        //    // transform.Rotate(0, 0, rotationZ);
+
+        //    transform.Rotate(transform.localEulerAngles.x, transform.localEulerAngles.y, rotationZ);
+
+        //}
+        //else if (Input.GetKey(KeyCode.L))
+        //{
+        //    rotationZ += rotateSpeed * Time.deltaTime;
+        //    rotationZ = Mathf.Clamp(rotationZ, -minRot, maxRot);
+
+        //    //transform.Rotate(0, 0, -rotationZ);
+
+        //    transform.Rotate(transform.localEulerAngles.x, transform.localEulerAngles.y, -rotationZ);
+        //}
+        //else
+        //{
+        //    rotationZ = 0;
+        //}
+
+        print(transform.localEulerAngles.z);
 
     }
 }
