@@ -10,8 +10,8 @@ public class ForeArm : MonoBehaviour
     //public float leftAngle;
     //public float rightAngle;
     
-    public float minRot;
-    public float maxRot;
+    public float leftRotMax;
+    public float rightRotMax;
 
     bool canRotate;
 
@@ -28,44 +28,40 @@ public class ForeArm : MonoBehaviour
     {
         canRotate = true;
 
-        if (minRot < -360F)
-        {
-            minRot += 360F;
-        }
-        if (minRot > 360F)
-        {
-            minRot -= 360F;
-        }
-
-        if (maxRot < -360F)
-        {
-            maxRot += 360F;
-        }
-        if (maxRot > 360F)
-        {
-            maxRot -= 360F;
-        }
-
-        angleL.eulerAngles = new Vector3(0, 0, minRot);
-        angleR.eulerAngles = new Vector3(0, 0, maxRot);
-
-        //angleL.eulerAngles = new Vector3(0, 0, ClampAngle(leftAngle,minRot,maxRot));
-        //angleR.eulerAngles = new Vector3(0, 0, ClampAngle(rightAngle, minRot, maxRot));
-
+        angleL.eulerAngles = new Vector3(0, 0, leftRotMax);
+        angleR.eulerAngles = new Vector3(0, 0, rightRotMax);
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (leftRotMax < -360F)
+        {
+            leftRotMax += 360F;
+        }
+        if (leftRotMax > 360F)
+        {
+            leftRotMax -= 360F;
+        }
+
+        if (rightRotMax < -360F)
+        {
+            rightRotMax += 360F;
+        }
+        if (rightRotMax > 360F)
+        {
+            rightRotMax -= 360F;
+        }
+
         if (isKeyboard)
         {
             if (Input.GetKey(KeyCode.J))
             {
-                transform.rotation = Quaternion.Slerp(transform.rotation, angleR, rotateSpeed * Time.deltaTime);
+                transform.rotation = Quaternion.Slerp(transform.rotation, angleL, rotateSpeed * Time.deltaTime);
             }
             else if (Input.GetKey(KeyCode.L))
             {
-                transform.rotation = Quaternion.Slerp(transform.rotation, angleL, rotateSpeed * Time.deltaTime);
+                transform.rotation = Quaternion.Slerp(transform.rotation, angleR, rotateSpeed * Time.deltaTime);
             }
         }
         else
@@ -73,11 +69,11 @@ public class ForeArm : MonoBehaviour
             //// Arm
             if (Input.GetAxis("Right Stick Y") < -0.1f)
             {
-                transform.rotation = Quaternion.Slerp(transform.rotation, angleR, rotateSpeed * Time.deltaTime);
+                transform.rotation = Quaternion.Slerp(transform.rotation, angleL, rotateSpeed * Time.deltaTime);
             }
             else if (Input.GetAxis("Right Stick Y") > 0.1f)
             {
-                transform.rotation = Quaternion.Slerp(transform.rotation, angleL, rotateSpeed * Time.deltaTime);
+                transform.rotation = Quaternion.Slerp(transform.rotation, angleR, rotateSpeed * Time.deltaTime);
             }
         }
 

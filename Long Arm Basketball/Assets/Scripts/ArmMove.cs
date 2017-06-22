@@ -5,6 +5,12 @@ using UnityEngine;
 public class ArmMove : MonoBehaviour
 {
     public float rotateSpeed;
+    public float leftAngleMax;
+    public float rightAngleMax;
+
+    Quaternion angleL;
+    Quaternion angleR;
+
 
     public bool isPlayer1;
     public bool isKeyboard;
@@ -37,6 +43,9 @@ public class ArmMove : MonoBehaviour
 
         addBallForce = false;
 
+        angleL.eulerAngles = new Vector3(0, 0, leftAngleMax);
+        angleR.eulerAngles = new Vector3(0, 0, rightAngleMax);
+
         //ballCol = GameObject.Find("Ball").GetComponent<CircleCollider2D>();
 
     }
@@ -44,8 +53,6 @@ public class ArmMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // To WORK ON
-
         if (armCol.IsTouching(playerCap))
         {
             Physics2D.IgnoreCollision(armCol, playerCap);
@@ -68,12 +75,12 @@ public class ArmMove : MonoBehaviour
                 // Arm Rotate
                 if (Input.GetKey(KeyCode.U))
                 {
-                    transform.Rotate(0, 0, rotateSpeed);
+                    transform.rotation = Quaternion.Slerp(transform.rotation, angleR, rotateSpeed * Time.deltaTime);
 
                 }
                 else if (Input.GetKey(KeyCode.P))
                 {
-                    transform.Rotate(0, 0, -rotateSpeed);
+                    transform.rotation = Quaternion.Slerp(transform.rotation, angleL, rotateSpeed * Time.deltaTime);
                 }
             }
             else
