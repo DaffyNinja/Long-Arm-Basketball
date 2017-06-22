@@ -56,21 +56,14 @@ public class PlayerMove : MonoBehaviour
                 }
 
                 // Arm Rotate
-                if (Input.GetKey(KeyCode.J))
+                if (Input.GetKey(KeyCode.U))
                 {
                     arm.transform.Rotate(0, 0, rotateSpeed);
 
-                    //JointMotor2D motor = armJoint.motor;
-                    //motor.motorSpeed = -200f;
-                    //armJoint.motor = motor;
                 }
-                else if (Input.GetKey(KeyCode.L))
+                else if (Input.GetKey(KeyCode.P))
                 {
                     arm.transform.Rotate(0, 0, -rotateSpeed);
-
-                    //JointMotor2D motor = armJoint.motor;
-                    //motor.motorSpeed = 200f;
-                    //armJoint.motor = motor;
                 }
             }
             else
