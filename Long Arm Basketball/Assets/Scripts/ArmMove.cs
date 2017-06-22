@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class ArmMove : MonoBehaviour
 {
+    public float rotateSpeed;
+
     public bool isPlayer1;
     public bool isKeyboard;
 
@@ -60,6 +62,32 @@ public class ArmMove : MonoBehaviour
 
         if (isPlayer1)
         {
+            //Arm Move
+            if (isKeyboard)
+            {
+                // Arm Rotate
+                if (Input.GetKey(KeyCode.U))
+                {
+                    transform.Rotate(0, 0, rotateSpeed);
+
+                }
+                else if (Input.GetKey(KeyCode.P))
+                {
+                    transform.Rotate(0, 0, -rotateSpeed);
+                }
+            }
+            else
+            {
+                if (Input.GetAxis("Right Stick Y") < -0.1f)
+                {
+                    transform.Rotate(0, 0, rotateSpeed);
+                }
+                else if (Input.GetAxis("Right Stick Y") > 0.1f)
+                {
+                    transform.Rotate(0, 0, -rotateSpeed);
+                }
+            }
+
             if (canGrab) // Grab Ball
             {
                 if (isKeyboard)

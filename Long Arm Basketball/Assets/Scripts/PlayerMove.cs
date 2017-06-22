@@ -7,7 +7,7 @@ public class PlayerMove : MonoBehaviour
     public bool isPlayer1;
 
     public float speed;
-    public float rotateSpeed;
+    //public float rotateSpeed;
 
     GameObject arm;
     CapsuleCollider2D armCap;
@@ -56,15 +56,15 @@ public class PlayerMove : MonoBehaviour
                 }
 
                 // Arm Rotate
-                if (Input.GetKey(KeyCode.U))
-                {
-                    arm.transform.Rotate(0, 0, rotateSpeed);
+                //if (Input.GetKey(KeyCode.U))
+                //{
+                //    arm.transform.Rotate(0, 0, rotateSpeed);
 
-                }
-                else if (Input.GetKey(KeyCode.P))
-                {
-                    arm.transform.Rotate(0, 0, -rotateSpeed);
-                }
+                //}
+                //else if (Input.GetKey(KeyCode.P))
+                //{
+                //    arm.transform.Rotate(0, 0, -rotateSpeed);
+                //}
             }
             else
             {
@@ -79,15 +79,15 @@ public class PlayerMove : MonoBehaviour
                     rig.velocity = new Vector2(moveQuality.x, rig.velocity.y);
                 }
 
-                // Arm
-                if (Input.GetAxis("Right Stick Y") < -0.1f)
-                {
-                    arm.transform.Rotate(0, 0, rotateSpeed);
-                }
-                else if (Input.GetAxis("Right Stick Y") > 0.1f)
-                {
-                    arm.transform.Rotate(0, 0, -rotateSpeed);
-                }
+                //// Arm
+                //if (Input.GetAxis("Right Stick Y") < -0.1f)
+                //{
+                //    arm.transform.Rotate(0, 0, rotateSpeed);
+                //}
+                //else if (Input.GetAxis("Right Stick Y") > 0.1f)
+                //{
+                //    arm.transform.Rotate(0, 0, -rotateSpeed);
+                //}
             }
         }
         else // Player 2
@@ -105,14 +105,14 @@ public class PlayerMove : MonoBehaviour
                     rig.velocity = new Vector2(moveQuality.x, rig.velocity.y);
                 }
 
-                if (Input.GetKey("[6]"))
-                {
-                    arm.transform.Rotate(0, 0, rotateSpeed);
-                }
-                else if (Input.GetKey("[4]"))
-                {
-                    arm.transform.Rotate(0, 0, -rotateSpeed);
-                }
+                //if (Input.GetKey("[6]"))
+                //{
+                //    arm.transform.Rotate(0, 0, rotateSpeed);
+                //}
+                //else if (Input.GetKey("[4]"))
+                //{
+                //    arm.transform.Rotate(0, 0, -rotateSpeed);
+                //}
             }
 
         }
