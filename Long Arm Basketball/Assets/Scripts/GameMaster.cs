@@ -38,8 +38,6 @@ public class GameMaster : MonoBehaviour
 
     public TMP_Text winText;
 
-    //public TMP_Text scoreText1;
-
 
     // Use this for initialization
     void Start()
