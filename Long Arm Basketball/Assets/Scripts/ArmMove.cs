@@ -94,7 +94,7 @@ public class ArmMove : MonoBehaviour
             {
                 if (Input.GetAxis("Left Trigger") > 0)
                 {
-                    print("LT");
+                    //print("LT");
 
                     leftTriggerDown = true;
                 }
@@ -105,11 +105,11 @@ public class ArmMove : MonoBehaviour
 
                 if (leftTriggerDown == false)
                 {
-                    if (Input.GetAxis("Right Stick Y") < -0.1f)
+                    if (Input.GetAxis("Right Stick X") < -0.1f || Input.GetAxis("Right Stick Y") < -0.1f)
                     {
                         transform.rotation = Quaternion.Slerp(transform.rotation, angleR, rotateSpeed * Time.deltaTime);
                     }
-                    else if (Input.GetAxis("Right Stick Y") > 0.1f)
+                    else if (Input.GetAxis("Right Stick X") > 0.1f || Input.GetAxis("Right Stick Y") > 0.1f)
                     {
                         transform.rotation = Quaternion.Slerp(transform.rotation, angleL, rotateSpeed * Time.deltaTime);
                     }
@@ -141,11 +141,15 @@ public class ArmMove : MonoBehaviour
                 {
                     if (Input.GetButton("RB Button"))
                     {
-                        ballObj.transform.parent = handObj.transform;
-                        ballObj.transform.position = handObj.transform.position;
                         ballObj.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
+                        ballObj.transform.parent = handObj.transform;
 
-                        // ballObj.GetComponent<CircleCollider2D>().enabled = false;
+                        ballObj.transform.position = handObj.transform.position;
+
+                        // ballObj.transform.position = new Vector3(handObj.transform.position.x, handObj.transform.position.y, handObj.transform.position.z);
+                        Physics2D.IgnoreCollision(ballObj.GetComponent<CircleCollider2D>(), handObj.GetComponent<CircleCollider2D>());
+
+                        //ballObj.GetComponent<CircleCollider2D>().enabled = false;
 
                         addBallForce = true;
                     }
@@ -179,8 +183,10 @@ public class ArmMove : MonoBehaviour
                     ballObj.transform.parent = null;
                     ballObj.GetComponent<Rigidbody2D>().simulated = true;
                     ballObj.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+                    ballObj.GetComponent<CircleCollider2D>().enabled = true;
 
-                    // ballObj.GetComponent<CircleCollider2D>().enabled = true;
+                    Physics2D.IgnoreCollision(ballObj.GetComponent<CircleCollider2D>(), handObj.GetComponent<CircleCollider2D>(), false);
+
 
                     if (addBallForce == true)
                     {

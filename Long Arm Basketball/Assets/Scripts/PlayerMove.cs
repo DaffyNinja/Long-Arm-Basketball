@@ -7,6 +7,7 @@ public class PlayerMove : MonoBehaviour
     public bool isPlayer1;
 
     public float speed;
+    public float jumpForce;
     //public float rotateSpeed;
 
     GameObject arm;
@@ -55,16 +56,12 @@ public class PlayerMove : MonoBehaviour
                     rig.velocity = new Vector2(moveQuality.x, rig.velocity.y);
                 }
 
-                // Arm Rotate
-                //if (Input.GetKey(KeyCode.U))
-                //{
-                //    arm.transform.Rotate(0, 0, rotateSpeed);
+                if (Input.GetKey(KeyCode.W))
+                {
+                    Vector2 moveQuality = new Vector2(0, jumpForce);
+                    rig.velocity = new Vector2(rig.velocity.x, moveQuality.y);
+                }
 
-                //}
-                //else if (Input.GetKey(KeyCode.P))
-                //{
-                //    arm.transform.Rotate(0, 0, -rotateSpeed);
-                //}
             }
             else
             {
@@ -79,15 +76,14 @@ public class PlayerMove : MonoBehaviour
                     rig.velocity = new Vector2(moveQuality.x, rig.velocity.y);
                 }
 
-                //// Arm
-                //if (Input.GetAxis("Right Stick Y") < -0.1f)
-                //{
-                //    arm.transform.Rotate(0, 0, rotateSpeed);
-                //}
-                //else if (Input.GetAxis("Right Stick Y") > 0.1f)
-                //{
-                //    arm.transform.Rotate(0, 0, -rotateSpeed);
-                //}
+
+
+                if (Input.GetButton("A Button"))
+                {
+                    Vector2 moveQuality = new Vector2(0, jumpForce);
+                    rig.velocity = new Vector2(rig.velocity.x, moveQuality.y);
+                }
+
             }
         }
         else // Player 2
