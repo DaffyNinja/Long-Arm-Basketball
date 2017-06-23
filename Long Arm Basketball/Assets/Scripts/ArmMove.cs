@@ -33,8 +33,13 @@ public class ArmMove : MonoBehaviour
 
     bool canGrab;
 
+    public bool leftTriggerDown;
+
+    ForeArm fArm;
+
+
     // Use this for initialization
-    void Start()
+    void Awake()
     {
 
         ballCol = ballObj.GetComponent<CircleCollider2D>();
@@ -45,6 +50,8 @@ public class ArmMove : MonoBehaviour
 
         angleL.eulerAngles = new Vector3(0, 0, leftAngleMax);
         angleR.eulerAngles = new Vector3(0, 0, rightAngleMax);
+
+        fArm = transform.GetChild(1).GetComponent<ForeArm>();
 
         //ballCol = GameObject.Find("Ball").GetComponent<CircleCollider2D>();
 
@@ -85,14 +92,29 @@ public class ArmMove : MonoBehaviour
             }
             else
             {
-                if (Input.GetAxis("Right Stick Y") < -0.1f)
+                if (Input.GetAxis("Left Trigger") > 0)
                 {
-                    transform.Rotate(0, 0, rotateSpeed);
+                    print("LT");
+
+                    leftTriggerDown = true;
                 }
-                else if (Input.GetAxis("Right Stick Y") > 0.1f)
+                else
                 {
-                    transform.Rotate(0, 0, -rotateSpeed);
+                    leftTriggerDown = false;
                 }
+
+                if (leftTriggerDown == false)
+                {
+                    if (Input.GetAxis("Right Stick Y") < -0.1f)
+                    {
+                        transform.rotation = Quaternion.Slerp(transform.rotation, angleR, rotateSpeed * Time.deltaTime);
+                    }
+                    else if (Input.GetAxis("Right Stick Y") > 0.1f)
+                    {
+                        transform.rotation = Quaternion.Slerp(transform.rotation, angleL, rotateSpeed * Time.deltaTime);
+                    }
+                }
+
             }
 
             if (canGrab) // Grab Ball
@@ -103,13 +125,13 @@ public class ArmMove : MonoBehaviour
                     {
                         ballObj.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
                         ballObj.transform.parent = handObj.transform;
-                      
+
                         ballObj.transform.position = handObj.transform.position;
 
-                       // ballObj.transform.position = new Vector3(handObj.transform.position.x, handObj.transform.position.y, handObj.transform.position.z);
+                        // ballObj.transform.position = new Vector3(handObj.transform.position.x, handObj.transform.position.y, handObj.transform.position.z);
                         Physics2D.IgnoreCollision(ballObj.GetComponent<CircleCollider2D>(), handObj.GetComponent<CircleCollider2D>());
 
-                         //ballObj.GetComponent<CircleCollider2D>().enabled = false;
+                        //ballObj.GetComponent<CircleCollider2D>().enabled = false;
 
                         addBallForce = true;
                     }
@@ -122,7 +144,7 @@ public class ArmMove : MonoBehaviour
                         ballObj.transform.parent = handObj.transform;
                         ballObj.transform.position = handObj.transform.position;
                         ballObj.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
-  
+
                         // ballObj.GetComponent<CircleCollider2D>().enabled = false;
 
                         addBallForce = true;
@@ -140,7 +162,7 @@ public class ArmMove : MonoBehaviour
                     ballObj.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
                     ballObj.GetComponent<CircleCollider2D>().enabled = true;
 
-                    Physics2D.IgnoreCollision(ballObj.GetComponent<CircleCollider2D>(), handObj.GetComponent<CircleCollider2D>(),false);
+                    Physics2D.IgnoreCollision(ballObj.GetComponent<CircleCollider2D>(), handObj.GetComponent<CircleCollider2D>(), false);
 
 
                     if (addBallForce == true)

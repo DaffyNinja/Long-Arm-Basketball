@@ -9,7 +9,7 @@ public class ForeArm : MonoBehaviour
 
     //public float leftAngle;
     //public float rightAngle;
-    
+
     public float leftRotMax;
     public float rightRotMax;
 
@@ -21,11 +21,15 @@ public class ForeArm : MonoBehaviour
     [Space(5)]
     public bool isKeyboard;
 
+     ArmMove aMove;
+
     //public GameObject armObj;
 
     // Use this for initialization
-    void Start()
+    void Awake()
     {
+        aMove = transform.GetComponentInParent<ArmMove>();
+
         canRotate = true;
 
         angleL.eulerAngles = new Vector3(0, 0, leftRotMax);
@@ -53,6 +57,7 @@ public class ForeArm : MonoBehaviour
             rightRotMax -= 360F;
         }
 
+        
         if (isKeyboard)
         {
             if (Input.GetKey(KeyCode.J))
@@ -66,14 +71,18 @@ public class ForeArm : MonoBehaviour
         }
         else
         {
+          
             //// Arm
-            if (Input.GetAxis("Right Stick Y") < -0.1f)
+            if (aMove.leftTriggerDown == true)
             {
-                transform.rotation = Quaternion.Slerp(transform.rotation, angleL, rotateSpeed * Time.deltaTime);
-            }
-            else if (Input.GetAxis("Right Stick Y") > 0.1f)
-            {
-                transform.rotation = Quaternion.Slerp(transform.rotation, angleR, rotateSpeed * Time.deltaTime);
+                if (Input.GetAxis("Right Stick Y") < -0.1f)
+                {
+                    transform.rotation = Quaternion.Slerp(transform.rotation, angleL, rotateSpeed * Time.deltaTime);
+                }
+                else if (Input.GetAxis("Right Stick Y") > 0.1f)
+                {
+                    transform.rotation = Quaternion.Slerp(transform.rotation, angleR, rotateSpeed * Time.deltaTime);
+                }
             }
         }
 

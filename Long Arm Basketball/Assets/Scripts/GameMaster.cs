@@ -26,7 +26,6 @@ public class GameMaster : MonoBehaviour
     bool leftHoopScored;
     bool rightHoopScored;
 
-
     public GameObject ballObj;
     CircleCollider2D ballCol;
     [Space(5)]
@@ -40,7 +39,7 @@ public class GameMaster : MonoBehaviour
 
 
     // Use this for initialization
-    void Start()
+    void Awake()
     {
         leftHoopCol = leftHoop.GetComponent<BoxCollider2D>();
         rightHoopCol = rightHoop.GetComponent<BoxCollider2D>();
@@ -82,7 +81,7 @@ public class GameMaster : MonoBehaviour
 
             leftHoopScored = true;
 
-            
+
             if (leftHoopScored == true)
             {
                 timer += Time.deltaTime;
