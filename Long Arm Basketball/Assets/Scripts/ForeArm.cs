@@ -18,6 +18,8 @@ public class ForeArm : MonoBehaviour
     Quaternion angleL;
     Quaternion angleR;
 
+   public float angleTest;
+
     [Space(5)]
     public bool isKeyboard;
 
@@ -34,54 +36,39 @@ public class ForeArm : MonoBehaviour
 
         angleL.eulerAngles = new Vector3(0, 0, leftRotMax);
         angleR.eulerAngles = new Vector3(0, 0, rightRotMax);
+
+        angleTest = transform.localEulerAngles.z;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (leftRotMax < -360F)
-        {
-            leftRotMax += 360F;
-        }
-        if (leftRotMax > 360F)
-        {
-            leftRotMax -= 360F;
-        }
-
-        if (rightRotMax < -360F)
-        {
-            rightRotMax += 360F;
-        }
-        if (rightRotMax > 360F)
-        {
-            rightRotMax -= 360F;
-        }
-
-        
+       
         if (isKeyboard)
         {
             if (Input.GetKey(KeyCode.J))
             {
-                transform.rotation = Quaternion.Slerp(transform.rotation, angleL, rotateSpeed * Time.deltaTime);
+                transform.rotation = Quaternion.Slerp(transform.rotation,Quaternion.Euler(0,0, leftRotMax * Mathf.Sin(Time.deltaTime * rotateSpeed)),rotateSpeed * Time.deltaTime);
             }
             else if (Input.GetKey(KeyCode.L))
             {
-                transform.rotation = Quaternion.Slerp(transform.rotation, angleR, rotateSpeed * Time.deltaTime);
+                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, 0, rightRotMax * Mathf.Sin(Time.deltaTime * rotateSpeed)), rotateSpeed * Time.deltaTime);
+
             }
         }
         else
         {
-          
+
             //// Arm
             if (aMove.leftTriggerDown == true)
             {
                 if (Input.GetAxis("Right Stick Y") < -0.1f)
                 {
-                    transform.rotation = Quaternion.Slerp(transform.rotation, angleL, rotateSpeed * Time.deltaTime);
+                    transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, 0, leftRotMax * Mathf.Sin(Time.deltaTime * rotateSpeed)), rotateSpeed * Time.deltaTime);
                 }
                 else if (Input.GetAxis("Right Stick Y") > 0.1f)
                 {
-                    transform.rotation = Quaternion.Slerp(transform.rotation, angleR, rotateSpeed * Time.deltaTime);
+                    transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, 0, rightRotMax * Mathf.Sin(Time.deltaTime * rotateSpeed)), rotateSpeed * Time.deltaTime);
                 }
             }
         }
