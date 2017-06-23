@@ -7,17 +7,15 @@ public class PlayerMove : MonoBehaviour
     public bool isPlayer1;
 
     public float speed;
+
     public float jumpForce;
-    //public float rotateSpeed;
+    bool isGrounded;
+
 
     GameObject arm;
     CapsuleCollider2D armCap;
 
     public bool isKeyboard;
-
-   // public HingeJoint2D armJoint;
-
-    // public BoxCollider2D groundCol;
 
     Rigidbody2D rig;
 
@@ -28,9 +26,6 @@ public class PlayerMove : MonoBehaviour
 
         arm = transform.GetChild(0).gameObject;
         armCap = arm.GetComponent<CapsuleCollider2D>();
-
-        // groundCol = GameObject.Find("Ground").GetComponentInChildren<BoxCollider2D>();
-
     }
 
     // Update is called once per frame
@@ -56,10 +51,13 @@ public class PlayerMove : MonoBehaviour
                     rig.velocity = new Vector2(moveQuality.x, rig.velocity.y);
                 }
 
-                if (Input.GetKey(KeyCode.W))
+                if (isGrounded)
                 {
-                    Vector2 moveQuality = new Vector2(0, jumpForce);
-                    rig.velocity = new Vector2(rig.velocity.x, moveQuality.y);
+                    if (Input.GetKeyDown(KeyCode.W))
+                    {
+                        Vector2 moveQuality = new Vector2(0, jumpForce);
+                        rig.velocity = new Vector2(rig.velocity.x, moveQuality.y);
+                    }
                 }
 
             }
@@ -77,11 +75,13 @@ public class PlayerMove : MonoBehaviour
                 }
 
 
-
-                if (Input.GetButton("A Button"))
+                if (isGrounded)
                 {
-                    Vector2 moveQuality = new Vector2(0, jumpForce);
-                    rig.velocity = new Vector2(rig.velocity.x, moveQuality.y);
+                    if (Input.GetButtonDown("A Button"))
+                    {
+                        Vector2 moveQuality = new Vector2(0, jumpForce);
+                        rig.velocity = new Vector2(rig.velocity.x, moveQuality.y);
+                    }
                 }
 
             }
@@ -115,12 +115,26 @@ public class PlayerMove : MonoBehaviour
 
     }
 
-    //private void OnCollisionEnter2D(Collision2D col)
-    //{
-    //    if (armCap.IsTouching(groundCol))
-    //    {
-    //        Physics2D.IgnoreCollision(groundCol, armCap,true);
-    //    }
+    void OnCollisionEnter2D(Collision2D col)
+    {
 
-    //}
+        if (col.gameObject.tag == "Ground")
+        {
+            isGrounded = true;
+        }
+        //if (armCap.IsTouching(groundCol))
+        //{
+        //    Physics2D.IgnoreCollision(groundCol, armCap, true);
+        //}
+
+    }
+
+    void OnCollisionExit2D(Collision2D col)
+    {
+        if (col.gameObject.tag == "Ground")
+        {
+            isGrounded = false;
+        }
+
+    }
 }
