@@ -77,17 +77,17 @@ public class ForeArm : MonoBehaviour
 
     }
 
-    public static float ClampAngle(float angle, float min, float max)
-    {
-        if (angle < -360F)
-        {
-            angle += 360F;
-        }
-        if (angle > 360F)
-        {
-            angle -= 360F;
-        }
+    //public static float ClampAngle(float angle, float min, float max)
+    //{
+    //    if (angle < -360F)
+    //    {
+    //        angle += 360F;
+    //    }
+    //    if (angle > 360F)
+    //    {
+    //        angle -= 360F;
+    //    }
 
-        return Mathf.Clamp(angle, min, max);
-    }
+    //    return Mathf.Clamp(angle, min, max);
+    //}
 }

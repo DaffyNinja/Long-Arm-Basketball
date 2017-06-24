@@ -15,6 +15,7 @@ public class ArmMove : MonoBehaviour
     public bool isPlayer1;
     public bool isKeyboard;
 
+    public Vector2 ballForce;
     bool addBallForce;
 
     [Space(5)]
@@ -171,7 +172,7 @@ public class ArmMove : MonoBehaviour
 
                     if (addBallForce == true)
                     {
-                        ballObj.GetComponent<Rigidbody2D>().AddForce(new Vector2(500, 800));
+                       // ballObj.GetComponent<Rigidbody2D>().velocity = 
                         addBallForce = false;
                     }
                 }
@@ -190,7 +191,7 @@ public class ArmMove : MonoBehaviour
 
                     if (addBallForce == true)
                     {
-                        ballObj.GetComponent<Rigidbody2D>().AddForce(new Vector2(500, 800));
+                        ballObj.GetComponent<Rigidbody2D>().velocity = ballForce;
                         addBallForce = false;
                     }
                 }
@@ -220,7 +221,7 @@ public class ArmMove : MonoBehaviour
                     ballObj.transform.parent = null;
                     ballObj.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
 
-                    ballObj.GetComponent<Rigidbody2D>().AddForce(new Vector2(-500, -800));
+                    ballObj.GetComponent<Rigidbody2D>().velocity = ballForce;
                 }
             }
 
