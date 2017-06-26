@@ -124,17 +124,13 @@ public class ArmMove : MonoBehaviour
                 {
                     if (Input.GetKey(KeyCode.Space)) // Hold
                     {
-                        ballObj.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
-                        ballObj.transform.parent = handObj.transform;
+                        ballObj.GetComponent<Rigidbody2D>().simulated = false;
+                        ballObj.transform.SetParent(handObj.transform);
 
-                        ballObj.transform.position = handObj.transform.position;
+                        ballObj.transform.position = new Vector3(handObj.transform.position.x + 0.5f, handObj.transform.position.y + 0.5f, handObj.transform.position.z);
 
-                        // ballObj.transform.position = new Vector3(handObj.transform.position.x, handObj.transform.position.y, handObj.transform.position.z);
-                        Physics2D.IgnoreCollision(ballObj.GetComponent<CircleCollider2D>(), handObj.GetComponent<CircleCollider2D>());
-
-                        //ballObj.GetComponent<CircleCollider2D>().enabled = false;
-
-                        addBallForce = true;
+                        //ballObj.transform.position = handObj.transform.position;
+                         addBallForce = true;
                     }
 
                 }
@@ -142,16 +138,12 @@ public class ArmMove : MonoBehaviour
                 {
                     if (Input.GetButton("RB Button"))
                     {
-                        ballObj.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
-                        ballObj.transform.parent = handObj.transform;
+                        ballObj.GetComponent<Rigidbody2D>().simulated = false;
+                        ballObj.transform.SetParent(handObj.transform);
 
-                        ballObj.transform.position = handObj.transform.position;
+                        ballObj.transform.position = new Vector3(handObj.transform.position.x + 0.5f, handObj.transform.position.y + 0.5f, handObj.transform.position.z);
 
-                        // ballObj.transform.position = new Vector3(handObj.transform.position.x, handObj.transform.position.y, handObj.transform.position.z);
-                        Physics2D.IgnoreCollision(ballObj.GetComponent<CircleCollider2D>(), handObj.GetComponent<CircleCollider2D>());
-
-                        //ballObj.GetComponent<CircleCollider2D>().enabled = false;
-
+                        //ballObj.transform.position = handObj.transform.position;
                         addBallForce = true;
                     }
                 }
@@ -162,17 +154,16 @@ public class ArmMove : MonoBehaviour
             {
                 if (Input.GetKeyUp(KeyCode.Space))
                 {
-                    ballObj.transform.parent = null;
+                    //print("LET GO");
+
                     ballObj.GetComponent<Rigidbody2D>().simulated = true;
-                    ballObj.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
-                    ballObj.GetComponent<CircleCollider2D>().enabled = true;
-
+                    ballObj.transform.parent = null;
+                   // ballObj.GetComponent<Rigidbody2D>().AddForce(ballForce,ForceMode2D.Impulse);
                     Physics2D.IgnoreCollision(ballObj.GetComponent<CircleCollider2D>(), handObj.GetComponent<CircleCollider2D>(), false);
-
 
                     if (addBallForce == true)
                     {
-                       // ballObj.GetComponent<Rigidbody2D>().velocity = 
+                        ballObj.GetComponent<Rigidbody2D>().AddForce(ballForce, ForceMode2D.Impulse);
                         addBallForce = false;
                     }
                 }
@@ -181,17 +172,15 @@ public class ArmMove : MonoBehaviour
             {
                 if (Input.GetButtonUp("RB Button"))
                 {
-                    ballObj.transform.parent = null;
+
                     ballObj.GetComponent<Rigidbody2D>().simulated = true;
-                    ballObj.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
-                    ballObj.GetComponent<CircleCollider2D>().enabled = true;
-
+                    ballObj.transform.parent = null;
+                    // ballObj.GetComponent<Rigidbody2D>().AddForce(ballForce,ForceMode2D.Impulse);
                     Physics2D.IgnoreCollision(ballObj.GetComponent<CircleCollider2D>(), handObj.GetComponent<CircleCollider2D>(), false);
-
 
                     if (addBallForce == true)
                     {
-                        ballObj.GetComponent<Rigidbody2D>().velocity = ballForce;
+                        ballObj.GetComponent<Rigidbody2D>().AddForce(ballForce, ForceMode2D.Impulse);
                         addBallForce = false;
                     }
                 }
@@ -221,7 +210,7 @@ public class ArmMove : MonoBehaviour
                     ballObj.transform.parent = null;
                     ballObj.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
 
-                    ballObj.GetComponent<Rigidbody2D>().velocity = ballForce;
+                   // ballObj.GetComponent<Rigidbody2D>().velocity = ballForce;
                 }
             }
 
