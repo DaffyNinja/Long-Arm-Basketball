@@ -20,10 +20,10 @@ public class ForeArm : MonoBehaviour
 
    public float angleTest;
 
-    [Space(5)]
-    public bool isKeyboard;
 
      ArmMove aMove;
+
+    PlayerMove playMove;
 
     //public GameObject armObj;
 
@@ -38,13 +38,15 @@ public class ForeArm : MonoBehaviour
         angleR.eulerAngles = new Vector3(0, 0, rightRotMax);
 
         angleTest = transform.localEulerAngles.z;
+
+        playMove = GetComponentInParent<PlayerMove>();
     }
 
     // Update is called once per frame
     void Update()
     {
        
-        if (isKeyboard)
+        if (playMove.isKeyboard)
         {
             if (Input.GetKey(KeyCode.J))
             {
@@ -56,9 +58,8 @@ public class ForeArm : MonoBehaviour
 
             }
         }
-        else
+        else  // Controller
         {
-
             //// Arm
             if (aMove.leftTriggerDown == true)
             {
@@ -70,10 +71,16 @@ public class ForeArm : MonoBehaviour
                 {
                     transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, 0, rightRotMax * Mathf.Sin(Time.deltaTime * rotateSpeed)), rotateSpeed * Time.deltaTime);
                 }
+
+                transform.GetChild(0).GetComponent<SpriteRenderer>().color = Color.green;
+
+            }
+            else
+            {
+
+                transform.GetChild(0).GetComponent<SpriteRenderer>().color = Color.white;
             }
         }
-
-        // print(transform.localEulerAngles.z);
 
     }
 
