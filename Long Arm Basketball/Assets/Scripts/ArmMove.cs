@@ -85,10 +85,18 @@ public class ArmMove : MonoBehaviour
                 {
                     transform.rotation = Quaternion.Slerp(transform.rotation, angleR, rotateSpeed * Time.deltaTime);
 
+                    armObj.GetComponent<SpriteRenderer>().color = Color.green;
+
                 }
                 else if (Input.GetKey(KeyCode.P))
                 {
                     transform.rotation = Quaternion.Slerp(transform.rotation, angleL, rotateSpeed * Time.deltaTime);
+
+                    armObj.GetComponent<SpriteRenderer>().color = Color.green;
+                }
+                else
+                {
+                    armObj.GetComponent<SpriteRenderer>().color = Color.white;
                 }
 
                 if (canGrab) // Grab Ball

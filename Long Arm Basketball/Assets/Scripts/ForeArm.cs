@@ -50,13 +50,22 @@ public class ForeArm : MonoBehaviour
         {
             if (Input.GetKey(KeyCode.J))
             {
-                transform.rotation = Quaternion.Slerp(transform.rotation,Quaternion.Euler(0,0, leftRotMax * Mathf.Sin(Time.deltaTime * rotateSpeed)),rotateSpeed * Time.deltaTime);
+                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, 0, leftRotMax * Mathf.Sin(Time.deltaTime * rotateSpeed)), rotateSpeed * Time.deltaTime);
+
+                transform.GetChild(0).GetComponent<SpriteRenderer>().color = Color.green;
             }
             else if (Input.GetKey(KeyCode.L))
             {
                 transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, 0, rightRotMax * Mathf.Sin(Time.deltaTime * rotateSpeed)), rotateSpeed * Time.deltaTime);
 
+                transform.GetChild(0).GetComponent<SpriteRenderer>().color = Color.green;
             }
+            else
+            {
+                transform.GetChild(0).GetComponent<SpriteRenderer>().color = Color.white;
+            }
+
+            
         }
         else  // Controller
         {
