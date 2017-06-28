@@ -10,12 +10,14 @@ public class PlayerMove : MonoBehaviour
 
     public float jumpForce;
     bool isGrounded;
+    [Header("Input")]
+    public bool isKeyboard;
 
+    public string controller1Name;
+    public string controller2Name;
 
     GameObject arm;
     CapsuleCollider2D armCap;
-
-    public bool isKeyboard;
 
     Rigidbody2D rig;
 
@@ -26,6 +28,19 @@ public class PlayerMove : MonoBehaviour
 
         arm = transform.GetChild(0).gameObject;
         armCap = arm.GetComponent<CapsuleCollider2D>();
+
+        // Disconnect
+        //if (controller1Name == "")
+        //{
+        //    controller1Name = "New Contoller";
+        //}
+        //else if (controller2Name == "")
+        //{
+        //    controller2Name = "New Contoller";
+        //}
+
+
+       
     }
 
     // Update is called once per frame
@@ -63,12 +78,12 @@ public class PlayerMove : MonoBehaviour
             }
             else
             {
-                if (Input.GetAxis("Left Stick X") > 0.1f)
+                if (Input.GetAxis("Left Stick X") > 0.1f) // Right
                 {
                     Vector2 moveQuality = new Vector2(speed, 0);
                     rig.velocity = new Vector2(moveQuality.x, rig.velocity.y);
                 }
-                else if (Input.GetAxis("Left Stick X") < -0.1f)
+                else if (Input.GetAxis("Left Stick X") < -0.1f) // Left
                 {
                     Vector2 moveQuality = new Vector2(-speed, 0);
                     rig.velocity = new Vector2(moveQuality.x, rig.velocity.y);
@@ -101,14 +116,30 @@ public class PlayerMove : MonoBehaviour
                     rig.velocity = new Vector2(moveQuality.x, rig.velocity.y);
                 }
 
-                //if (Input.GetKey("[6]"))
-                //{
-                //    arm.transform.Rotate(0, 0, rotateSpeed);
-                //}
-                //else if (Input.GetKey("[4]"))
-                //{
-                //    arm.transform.Rotate(0, 0, -rotateSpeed);
-                //}
+            }
+            else
+            {
+                if (Input.GetAxis("Left Stick X") > 0.1f)
+                {
+                    Vector2 moveQuality = new Vector2(speed, 0);
+                    rig.velocity = new Vector2(moveQuality.x, rig.velocity.y);
+                }
+                else if (Input.GetAxis("Left Stick X") < -0.1f)
+                {
+                    Vector2 moveQuality = new Vector2(-speed, 0);
+                    rig.velocity = new Vector2(moveQuality.x, rig.velocity.y);
+                }
+
+
+                if (isGrounded)
+                {
+                    if (Input.GetButtonDown("A Button"))
+                    {
+                        Vector2 moveQuality = new Vector2(0, jumpForce);
+                        rig.velocity = new Vector2(rig.velocity.x, moveQuality.y);
+                    }
+                }
+
             }
 
         }

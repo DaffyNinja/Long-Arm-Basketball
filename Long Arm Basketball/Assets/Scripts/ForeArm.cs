@@ -40,70 +40,111 @@ public class ForeArm : MonoBehaviour
         angleTest = transform.localEulerAngles.z;
 
         playMove = GetComponentInParent<PlayerMove>();
+
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-       
-        if (playMove.isKeyboard)
+
+        if (playMove.isPlayer1)  // Player 1
         {
-            if (Input.GetKey(KeyCode.J))
+            if (playMove.isKeyboard)
             {
-                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, 0, leftRotMax * Mathf.Sin(Time.deltaTime * rotateSpeed)), rotateSpeed * Time.deltaTime);
-
-                transform.GetChild(0).GetComponent<SpriteRenderer>().color = Color.green;
-            }
-            else if (Input.GetKey(KeyCode.L))
-            {
-                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, 0, rightRotMax * Mathf.Sin(Time.deltaTime * rotateSpeed)), rotateSpeed * Time.deltaTime);
-
-                transform.GetChild(0).GetComponent<SpriteRenderer>().color = Color.green;
-            }
-            else
-            {
-                transform.GetChild(0).GetComponent<SpriteRenderer>().color = Color.white;
-            }
-
-            
-        }
-        else  // Controller
-        {
-            //// Arm
-            if (aMove.leftTriggerDown == true)
-            {
-                if (Input.GetAxis("Right Stick Y") < -0.1f)
+                if (Input.GetKey(KeyCode.J))
                 {
                     transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, 0, leftRotMax * Mathf.Sin(Time.deltaTime * rotateSpeed)), rotateSpeed * Time.deltaTime);
+
+                    transform.GetChild(0).GetComponent<SpriteRenderer>().color = Color.green;
                 }
-                else if (Input.GetAxis("Right Stick Y") > 0.1f)
+                else if (Input.GetKey(KeyCode.L))
                 {
                     transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, 0, rightRotMax * Mathf.Sin(Time.deltaTime * rotateSpeed)), rotateSpeed * Time.deltaTime);
+
+                    transform.GetChild(0).GetComponent<SpriteRenderer>().color = Color.green;
+                }
+                else
+                {
+                    transform.GetChild(0).GetComponent<SpriteRenderer>().color = Color.white;
                 }
 
-                transform.GetChild(0).GetComponent<SpriteRenderer>().color = Color.green;
 
             }
-            else
+            else  // Controller
             {
+                //// Arm
+                if (aMove.leftTriggerDown == true)
+                {
+                    if (Input.GetAxis("Right Stick Y") < -0.1f)
+                    {
+                        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, 0, leftRotMax * Mathf.Sin(Time.deltaTime * rotateSpeed)), rotateSpeed * Time.deltaTime);
+                    }
+                    else if (Input.GetAxis("Right Stick Y") > 0.1f)
+                    {
+                        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, 0, rightRotMax * Mathf.Sin(Time.deltaTime * rotateSpeed)), rotateSpeed * Time.deltaTime);
+                    }
 
-                transform.GetChild(0).GetComponent<SpriteRenderer>().color = Color.white;
+                    transform.GetChild(0).GetComponent<SpriteRenderer>().color = Color.green;
+
+                }
+                else
+                {
+
+                    transform.GetChild(0).GetComponent<SpriteRenderer>().color = Color.white;
+                }
+            }
+
+        }
+        else // Player 2
+        {
+            if (playMove.isKeyboard) // Keyboard
+            {
+                if (Input.GetKey(KeyCode.J))
+                {
+                    transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, 0, leftRotMax * Mathf.Sin(Time.deltaTime * rotateSpeed)), rotateSpeed * Time.deltaTime);
+
+                    transform.GetChild(0).GetComponent<SpriteRenderer>().color = Color.green;
+                }
+                else if (Input.GetKey(KeyCode.L))
+                {
+                    transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, 0, rightRotMax * Mathf.Sin(Time.deltaTime * rotateSpeed)), rotateSpeed * Time.deltaTime);
+
+                    transform.GetChild(0).GetComponent<SpriteRenderer>().color = Color.green;
+                }
+                else
+                {
+                    transform.GetChild(0).GetComponent<SpriteRenderer>().color = Color.white;
+                }
+
+
+            }
+            else  // Controller
+            {
+                
+                //// Arm
+                if (aMove.leftTriggerDown == true)
+                {
+                    if (Input.GetAxis("Right Stick Y") < -0.1f)
+                    {
+                        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, 0, leftRotMax * Mathf.Sin(Time.deltaTime * rotateSpeed)), rotateSpeed * Time.deltaTime);
+                    }
+                    else if (Input.GetAxis("Right Stick Y") > 0.1f)
+                    {
+                        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, 0, rightRotMax * Mathf.Sin(Time.deltaTime * rotateSpeed)), rotateSpeed * Time.deltaTime);
+                    }
+
+                    transform.GetChild(0).GetComponent<SpriteRenderer>().color = Color.green;
+
+                }
+                else
+                {
+
+                    transform.GetChild(0).GetComponent<SpriteRenderer>().color = Color.white;
+                }
             }
         }
 
+
     }
-
-    //public static float ClampAngle(float angle, float min, float max)
-    //{
-    //    if (angle < -360F)
-    //    {
-    //        angle += 360F;
-    //    }
-    //    if (angle > 360F)
-    //    {
-    //        angle -= 360F;
-    //    }
-
-    //    return Mathf.Clamp(angle, min, max);
-    //}
 }
