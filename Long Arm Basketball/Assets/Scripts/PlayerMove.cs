@@ -9,7 +9,8 @@ public class PlayerMove : MonoBehaviour
     public float speed;
 
     public float jumpForce;
-    bool isGrounded;
+    [HideInInspector]
+    public bool isGrounded;
     [Header("Input")]
     public bool isKeyboard;
 
@@ -21,6 +22,8 @@ public class PlayerMove : MonoBehaviour
 
     Rigidbody2D rig;
 
+    ControllerManager controlMan;
+
     // Use this for initialization
     void Awake()
     {
@@ -29,15 +32,9 @@ public class PlayerMove : MonoBehaviour
         arm = transform.GetChild(0).gameObject;
         armCap = arm.GetComponent<CapsuleCollider2D>();
 
-        // Disconnect
-        //if (controller1Name == "")
-        //{
-        //    controller1Name = "New Contoller";
-        //}
-        //else if (controller2Name == "")
-        //{
-        //    controller2Name = "New Contoller";
-        //}
+        controlMan = GetComponent<ControllerManager>();
+
+
     }
 
     // Update is called once per frame
@@ -73,24 +70,25 @@ public class PlayerMove : MonoBehaviour
                 }
 
             }
-            else
-            {
-
-                if (Input.GetAxis("Left Stick X") > 0.1f) // Right
+            else // Controller
+            {  
+                // Xbox 360
+                if (controlMan.p1IsXbox360)
                 {
-                    Vector2 moveQuality = new Vector2(speed, 0);
-                    rig.velocity = new Vector2(moveQuality.x, rig.velocity.y);
-                } 
-                else if (Input.GetAxis("Left Stick X") < -0.1f) // Left
-                {
-                    Vector2 moveQuality = new Vector2(-speed, 0);
-                    rig.velocity = new Vector2(moveQuality.x, rig.velocity.y);
-                }
+                    controlMan.Xbox360Input();
 
+                    if (controlMan.moveRight == true)
+                    {
+                        Vector2 moveQuality = new Vector2(speed, 0);
+                        rig.velocity = new Vector2(moveQuality.x, rig.velocity.y);
+                    }
+                    else if (controlMan.moveLeft == true)
+                    {
+                        Vector2 moveQuality = new Vector2(-speed, 0);
+                        rig.velocity = new Vector2(moveQuality.x, rig.velocity.y);
+                    }
 
-                if (isGrounded)
-                {
-                    if (Input.GetButtonDown("A Button"))
+                    if (controlMan.canJump == true)
                     {
                         Vector2 moveQuality = new Vector2(0, jumpForce);
                         rig.velocity = new Vector2(rig.velocity.x, moveQuality.y);
@@ -115,7 +113,7 @@ public class PlayerMove : MonoBehaviour
                 }
 
             }
-            else
+            else // Controller
             {
                 if (Input.GetAxis("Left Stick X") > 0.1f)
                 {

@@ -4,18 +4,21 @@ using UnityEngine;
 
 public class ControllerManager : MonoBehaviour
 {
+    [Header("Controllers")]
     public string controller1Name;
     public string controller2Name;
-
-
+    [Space(5)]
     public bool p1IsXbox360;
     public bool p1IsLogitech;
     public bool p1IsPS4;
-
+    [Space(10)]
     public bool p2IsXbox360;
     public bool p2IsLogitech;
     public bool p2IsPS4;
-
+    [Header("Input")]
+    public bool moveLeft;
+    public bool moveRight;
+    public bool canJump;
 
     PlayerMove pMove;
 
@@ -26,8 +29,6 @@ public class ControllerManager : MonoBehaviour
 
         for (int i = 0; i < Input.GetJoystickNames().Length; i++)
         {
-            //print(Input.GetJoystickNames()[i].ToString());
-
             controller1Name = Input.GetJoystickNames()[0];
             controller2Name = Input.GetJoystickNames()[1];
         }
@@ -48,7 +49,6 @@ public class ControllerManager : MonoBehaviour
                 default:
                     print("CONTROLLER ERROR");
                     break;
-
             }
         }
         else
@@ -67,44 +67,50 @@ public class ControllerManager : MonoBehaviour
                 default:
                     print("CONTROLLER ERROR");
                     break;
-
             }
 
         }
-        
 
     }
 
     // Update is called once per frame
     void Update()
     {
-              // Xbox
+        // Xbox
         // PS4
+
+
 
     }
 
     //Xbox
-    void Xbox360StickMovement()
+    public void Xbox360Input()
     {
-        //if (Input.GetAxis("Left Stick X") > 0.1f) // Right
-        //{
-        //    Vector2 moveQuality = new Vector2(speed, 0);
-        //    rig.velocity = new Vector2(moveQuality.x, rig.velocity.y);
-        //}
-        //else if (Input.GetAxis("Left Stick X") < -0.1f) // Left
-        //{
-        //    Vector2 moveQuality = new Vector2(-speed, 0);
-        //    rig.velocity = new Vector2(moveQuality.x, rig.velocity.y);
-        //}
-    }
+        if (Input.GetAxis("Left Stick X") > 0.1f) // Right
+        {
+            moveRight = true;
+        }
+        else if (Input.GetAxis("Left Stick X") < -0.1f) // Left
+        {
+            moveLeft = true;
+        }
+        else
+        {
+            moveLeft = false;
+            moveRight = false;
+        }
 
-    void Xbox360Buttons()
-    {
-        //if (Input.GetButtonDown("A Button"))
-        //{
-        //    Vector2 moveQuality = new Vector2(0, jumpForce);
-        //    rig.velocity = new Vector2(rig.velocity.x, moveQuality.y);
-        //}
+        if (pMove.isGrounded)
+        {
+            if (Input.GetButtonDown("A Button"))
+            {
+                canJump = true;
+            }
+        }
+        else
+        {
+            canJump = false;
+        }
     }
 
     //PS4
