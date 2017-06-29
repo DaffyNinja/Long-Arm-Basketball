@@ -8,13 +8,22 @@ public class ControllerManager : MonoBehaviour
     public string controller2Name;
 
 
-    bool isXbox360;
-    bool isLogitech;
-    bool isPS4;
+    public bool p1IsXbox360;
+    public bool p1IsLogitech;
+    public bool p1IsPS4;
+
+    public bool p2IsXbox360;
+    public bool p2IsLogitech;
+    public bool p2IsPS4;
+
+
+    PlayerMove pMove;
 
     // Use this for initialization
     void Awake()
     {
+        pMove = GetComponent<PlayerMove>();
+
         for (int i = 0; i < Input.GetJoystickNames().Length; i++)
         {
             //print(Input.GetJoystickNames()[i].ToString());
@@ -23,58 +32,130 @@ public class ControllerManager : MonoBehaviour
             controller2Name = Input.GetJoystickNames()[1];
         }
 
+        if (pMove.isPlayer1)
+        {
+            switch (controller1Name)
+            {
+                case "Xbox 360 Controller":
+                    p1IsXbox360 = true;
+                    break;
+                case "Wireless Controller":  //PS4
+                    p1IsPS4 = true;
+                    break;
+                case "Logitech Dual Action":
+                    p1IsLogitech = true;
+                    break;
+                default:
+                    print("CONTROLLER ERROR");
+                    break;
+
+            }
+        }
+        else
+        {
+            switch (controller2Name)
+            {
+                case "Xbox 360 Controller":
+                    p2IsXbox360 = true;
+                    break;
+                case "Wireless Controller":  //PS4
+                    p2IsPS4 = true;
+                    break;
+                case "Logitech Dual Action":
+                    p2IsLogitech = true;
+                    break;
+                default:
+                    print("CONTROLLER ERROR");
+                    break;
+
+            }
+
+        }
+        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetJoystickNames()[0] == "Logitech Dual Action")
+              // Xbox
+        // PS4
+
+    }
+
+    //Xbox
+    void Xbox360StickMovement()
+    {
+        //if (Input.GetAxis("Left Stick X") > 0.1f) // Right
+        //{
+        //    Vector2 moveQuality = new Vector2(speed, 0);
+        //    rig.velocity = new Vector2(moveQuality.x, rig.velocity.y);
+        //}
+        //else if (Input.GetAxis("Left Stick X") < -0.1f) // Left
+        //{
+        //    Vector2 moveQuality = new Vector2(-speed, 0);
+        //    rig.velocity = new Vector2(moveQuality.x, rig.velocity.y);
+        //}
+    }
+
+    void Xbox360Buttons()
+    {
+        //if (Input.GetButtonDown("A Button"))
+        //{
+        //    Vector2 moveQuality = new Vector2(0, jumpForce);
+        //    rig.velocity = new Vector2(rig.velocity.x, moveQuality.y);
+        //}
+    }
+
+    //PS4
+
+    //Logitech
+    void LogitechStickMovement()
+    {
+
+        if (Input.GetAxis("Left Stick X") > 0.1f) // Right
         {
-            isLogitech = true;
+            print("Right");
+        }
+        else if (Input.GetAxis("Left Stick X") < -0.1f)
+        {
+            print("Left");
         }
 
-        if (isLogitech == true)
+        if (Input.GetAxis("Right Stick X") < -0.1f || Input.GetAxis("Right Stick Y") < -0.1f)
         {
-            if (Input.GetAxis("Left Stick X") > 0.1f) // Right
-            {
-                print("Right");
-            }
-            else if (Input.GetAxis("Left Stick X") < -0.1f)
-            {
-                print("Left");
-            }
-
-            if (Input.GetAxis("Right Stick X") < -0.1f || Input.GetAxis("Right Stick Y") < -0.1f)
-            {
-                print("Right");
-            }
-            else if (Input.GetAxis("Right Stick X") > 0.1f || Input.GetAxis("Right Stick Y") > 0.1f)
-            {
-                print("Left");
-            }
-
-            // Logitech
-            if (Input.GetKey(KeyCode.Joystick1Button1))
-            {
-                print("1"); // Logitech A
-            }
-            else if (Input.GetKey(KeyCode.Joystick1Button4))
-            {
-                print("4"); // Logitech LB
-            }
-            else if (Input.GetKey(KeyCode.Joystick1Button5))
-            {
-                print("5"); // Logitech RB
-            }
-            else if (Input.GetKey(KeyCode.Joystick1Button6))
-            {
-                print("6"); // Logitech LT
-            }
-            else if (Input.GetKey(KeyCode.Joystick1Button7))
-            {
-                print("7"); // Logitech RT
-            }
+            print("Right");
+        }
+        else if (Input.GetAxis("Right Stick X") > 0.1f || Input.GetAxis("Right Stick Y") > 0.1f)
+        {
+            print("Left");
         }
 
     }
+
+    void LogitechButtons()
+    {
+        // Logitech
+        if (Input.GetKey(KeyCode.Joystick1Button1))
+        {
+            print("1"); // Logitech A
+        }
+        else if (Input.GetKey(KeyCode.Joystick1Button4))
+        {
+            print("4"); // Logitech LB
+        }
+        else if (Input.GetKey(KeyCode.Joystick1Button5))
+        {
+            print("5"); // Logitech RB
+        }
+        else if (Input.GetKey(KeyCode.Joystick1Button6))
+        {
+            print("6"); // Logitech LT
+        }
+        else if (Input.GetKey(KeyCode.Joystick1Button7))
+        {
+            print("7"); // Logitech RT
+        }
+    }
+
 }

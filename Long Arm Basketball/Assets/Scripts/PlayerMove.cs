@@ -38,9 +38,6 @@ public class PlayerMove : MonoBehaviour
         //{
         //    controller2Name = "New Contoller";
         //}
-
-
-       
     }
 
     // Update is called once per frame
@@ -78,11 +75,12 @@ public class PlayerMove : MonoBehaviour
             }
             else
             {
+
                 if (Input.GetAxis("Left Stick X") > 0.1f) // Right
                 {
                     Vector2 moveQuality = new Vector2(speed, 0);
                     rig.velocity = new Vector2(moveQuality.x, rig.velocity.y);
-                }
+                } 
                 else if (Input.GetAxis("Left Stick X") < -0.1f) // Left
                 {
                     Vector2 moveQuality = new Vector2(-speed, 0);
@@ -129,7 +127,6 @@ public class PlayerMove : MonoBehaviour
                     Vector2 moveQuality = new Vector2(-speed, 0);
                     rig.velocity = new Vector2(moveQuality.x, rig.velocity.y);
                 }
-
 
                 if (isGrounded)
                 {
