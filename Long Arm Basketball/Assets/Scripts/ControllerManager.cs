@@ -120,51 +120,48 @@ public class ControllerManager : MonoBehaviour
     //PS4
 
     //Logitech
-    void LogitechStickMovement()
+    public void Logitechinput()
     {
 
         if (Input.GetAxis("Left Stick X") > 0.1f) // Right
         {
-            print("Right");
+            moveRight = true;
+            moveLeft = false;
         }
         else if (Input.GetAxis("Left Stick X") < -0.1f)
         {
-            print("Left");
-        }
+            moveLeft = true;
+            moveRight = false;
 
-        if (Input.GetAxis("Right Stick X") < -0.1f || Input.GetAxis("Right Stick Y") < -0.1f)
+        }
+        else
         {
-            print("Right");
-        }
-        else if (Input.GetAxis("Right Stick X") > 0.1f || Input.GetAxis("Right Stick Y") > 0.1f)
-        {
-            print("Left");
+            moveLeft = false;
+            moveRight = false;
         }
 
-    }
+        //if (Input.GetAxis("Right Stick X") < -0.1f || Input.GetAxis("Right Stick Y") < -0.1f)
+        //{
+        //    print("Right");
+        //}
+        //else if (Input.GetAxis("Right Stick X") > 0.1f || Input.GetAxis("Right Stick Y") > 0.1f)
+        //{
+        //    print("Left");
+        //}
 
-    void LogitechButtons()
-    {
+
         // Logitech
-        if (Input.GetKey(KeyCode.Joystick1Button1))
+        if (pMove.isGrounded)
         {
-            print("1"); // Logitech A
+            if (Input.GetKey(KeyCode.Joystick1Button1))
+            {
+               // print("1"); // Logitech A
+                canJump = true;
+            }
         }
-        else if (Input.GetKey(KeyCode.Joystick1Button4))
+        else
         {
-            print("4"); // Logitech LB
-        }
-        else if (Input.GetKey(KeyCode.Joystick1Button5))
-        {
-            print("5"); // Logitech RB
-        }
-        else if (Input.GetKey(KeyCode.Joystick1Button6))
-        {
-            print("6"); // Logitech LT
-        }
-        else if (Input.GetKey(KeyCode.Joystick1Button7))
-        {
-            print("7"); // Logitech RT
+            canJump = false;
         }
     }
 

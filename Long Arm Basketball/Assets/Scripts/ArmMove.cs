@@ -14,7 +14,7 @@ public class ArmMove : MonoBehaviour
     public Vector2 ballForce;
     bool addBallForce;
 
-    [Space(5)]
+    [Space(15)]
     public GameObject handObj;
 
     public GameObject armObj;
@@ -128,13 +128,13 @@ public class ArmMove : MonoBehaviour
 
                         if (fArm.gameObject.transform.localEulerAngles.z > 200 && fArm.gameObject.transform.localEulerAngles.z < 320)
                         {
-                            print("FORWARD");
+                           // print("FORWARD");
                             ballObj.GetComponent<Rigidbody2D>().AddForce(ballForce, ForceMode2D.Impulse);
                             addBallForce = false;
                         }
                         else
                         {
-                            print("BACK");
+                           // print("BACK");
                             ballObj.GetComponent<Rigidbody2D>().AddForce(new Vector2(-ballForce.x,ballForce.y), ForceMode2D.Impulse);
                             addBallForce = false;
                         }

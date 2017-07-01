@@ -38,7 +38,7 @@ public class PlayerMove : MonoBehaviour
             Physics2D.IgnoreCollision(GetComponent<CapsuleCollider2D>(), armCap);
         }
 
-        if (isPlayer1)
+        if (isPlayer1)  // Player 1
         {
             if (isKeyboard)
             {
@@ -108,26 +108,27 @@ public class PlayerMove : MonoBehaviour
             }
             else // Controller
             {
-                if (Input.GetAxis("Left Stick X") > 0.1f)
+               if(controlMan.p2IsLogitech)
                 {
-                    Vector2 moveQuality = new Vector2(speed, 0);
-                    rig.velocity = new Vector2(moveQuality.x, rig.velocity.y);
-                }
-                else if (Input.GetAxis("Left Stick X") < -0.1f)
-                {
-                    Vector2 moveQuality = new Vector2(-speed, 0);
-                    rig.velocity = new Vector2(moveQuality.x, rig.velocity.y);
-                }
+                    controlMan.Logitechinput();
 
-                if (isGrounded)
-                {
-                    if (Input.GetButtonDown("A Button"))
+                    if (controlMan.moveRight == true)
+                    {
+                        Vector2 moveQuality = new Vector2(speed, 0);
+                        rig.velocity = new Vector2(moveQuality.x, rig.velocity.y);
+                    }
+                    else if (controlMan.moveLeft == true)
+                    {
+                        Vector2 moveQuality = new Vector2(-speed, 0);
+                        rig.velocity = new Vector2(moveQuality.x, rig.velocity.y);
+                    }
+
+                    if (controlMan.canJump == true)
                     {
                         Vector2 moveQuality = new Vector2(0, jumpForce);
                         rig.velocity = new Vector2(rig.velocity.x, moveQuality.y);
                     }
                 }
-
             }
 
         }
