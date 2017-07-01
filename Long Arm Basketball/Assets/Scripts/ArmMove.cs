@@ -81,7 +81,7 @@ public class ArmMove : MonoBehaviour
             if (playMove.isKeyboard)
             {
                 // Arm Rotate
-                if (Input.GetKey(KeyCode.U))
+                if (Input.GetKey(KeyCode.I))
                 {
                     transform.rotation = Quaternion.Slerp(transform.rotation, angleR, rotateSpeed * Time.deltaTime);
 
@@ -106,7 +106,7 @@ public class ArmMove : MonoBehaviour
                         ballObj.GetComponent<Rigidbody2D>().simulated = false;
                         ballObj.transform.SetParent(handObj.transform);
 
-                        ballObj.transform.position = new Vector3(handObj.transform.position.x + 0.5f, handObj.transform.position.y + 0.5f, handObj.transform.position.z);
+                        ballObj.transform.position = new Vector3(handObj.transform.position.x + 1.5f, handObj.transform.position.y + 1.5f, handObj.transform.position.z);
 
                         //ballObj.transform.position = handObj.transform.position;
                         addBallForce = true;
@@ -122,11 +122,28 @@ public class ArmMove : MonoBehaviour
                     // ballObj.GetComponent<Rigidbody2D>().AddForce(ballForce,ForceMode2D.Impulse);
                     Physics2D.IgnoreCollision(ballObj.GetComponent<CircleCollider2D>(), handObj.GetComponent<CircleCollider2D>(), false);
 
-                    if (addBallForce == true)
+                    if (addBallForce)
                     {
-                        ballObj.GetComponent<Rigidbody2D>().AddForce(ballForce, ForceMode2D.Impulse);
-                        addBallForce = false;
+                        print("Throw");
+
+                        if (fArm.gameObject.transform.localEulerAngles.z > 200 && fArm.gameObject.transform.localEulerAngles.z < 320)
+                        {
+                            print("FORWARD");
+                            ballObj.GetComponent<Rigidbody2D>().AddForce(ballForce, ForceMode2D.Impulse);
+                            addBallForce = false;
+                        }
+                        else
+                        {
+                            print("BACK");
+                            ballObj.GetComponent<Rigidbody2D>().AddForce(new Vector2(-ballForce.x,ballForce.y), ForceMode2D.Impulse);
+                            addBallForce = false;
+                        }
                     }
+
+                   // print(fArm.gameObject.transform.localEulerAngles.z);
+
+                    ballObj.GetComponent<Rigidbody2D>().angularVelocity = 3;
+                    addBallForce = false;
                 }
             }
             else // Controller
@@ -274,8 +291,17 @@ public class ArmMove : MonoBehaviour
 
                     if (addBallForce == true)
                     {
-                        ballObj.GetComponent<Rigidbody2D>().AddForce(ballForce, ForceMode2D.Impulse);
-                        addBallForce = false;
+                        if (transform.localEulerAngles.z <= 50)
+                        {
+                            ballObj.GetComponent<Rigidbody2D>().AddForce(ballForce, ForceMode2D.Impulse);
+                            addBallForce = false;
+                        }
+                        else
+                        {
+
+                            ballObj.GetComponent<Rigidbody2D>().AddForce(-ballForce, ForceMode2D.Impulse);
+                            addBallForce = false;
+                        }
                     }
                 }
             }

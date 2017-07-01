@@ -14,14 +14,9 @@ public class PlayerMove : MonoBehaviour
     [Header("Input")]
     public bool isKeyboard;
 
-    public string controller1Name;
-    public string controller2Name;
-
     GameObject arm;
     CapsuleCollider2D armCap;
-
     Rigidbody2D rig;
-
     ControllerManager controlMan;
 
     // Use this for initialization
@@ -33,8 +28,6 @@ public class PlayerMove : MonoBehaviour
         armCap = arm.GetComponent<CapsuleCollider2D>();
 
         controlMan = GetComponent<ControllerManager>();
-
-
     }
 
     // Update is called once per frame
@@ -148,6 +141,7 @@ public class PlayerMove : MonoBehaviour
         {
             isGrounded = true;
         }
+
         //if (armCap.IsTouching(groundCol))
         //{
         //    Physics2D.IgnoreCollision(groundCol, armCap, true);

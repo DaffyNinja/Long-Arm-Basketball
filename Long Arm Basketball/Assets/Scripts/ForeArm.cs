@@ -18,10 +18,7 @@ public class ForeArm : MonoBehaviour
     Quaternion angleL;
     Quaternion angleR;
 
-   public float angleTest;
-
-
-     ArmMove aMove;
+    ArmMove aMove;
 
     PlayerMove playMove;
 
@@ -37,11 +34,9 @@ public class ForeArm : MonoBehaviour
         angleL.eulerAngles = new Vector3(0, 0, leftRotMax);
         angleR.eulerAngles = new Vector3(0, 0, rightRotMax);
 
-        angleTest = transform.localEulerAngles.z;
-
         playMove = GetComponentInParent<PlayerMove>();
 
-        
+
     }
 
     // Update is called once per frame
@@ -121,7 +116,7 @@ public class ForeArm : MonoBehaviour
             }
             else  // Controller
             {
-                
+
                 //// Arm
                 if (aMove.leftTriggerDown == true)
                 {

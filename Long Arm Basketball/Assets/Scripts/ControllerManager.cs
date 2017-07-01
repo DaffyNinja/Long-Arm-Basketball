@@ -27,48 +27,52 @@ public class ControllerManager : MonoBehaviour
     {
         pMove = GetComponent<PlayerMove>();
 
-        for (int i = 0; i < Input.GetJoystickNames().Length; i++)
+        if (pMove.isKeyboard == false)
         {
-            controller1Name = Input.GetJoystickNames()[0];
-            controller2Name = Input.GetJoystickNames()[1];
-        }
-
-        if (pMove.isPlayer1)
-        {
-            switch (controller1Name)
+            for (int i = 0; i < Input.GetJoystickNames().Length; i++)
             {
-                case "Xbox 360 Controller":
-                    p1IsXbox360 = true;
-                    break;
-                case "Wireless Controller":  //PS4
-                    p1IsPS4 = true;
-                    break;
-                case "Logitech Dual Action":
-                    p1IsLogitech = true;
-                    break;
-                default:
-                    print("CONTROLLER ERROR");
-                    break;
-            }
-        }
-        else
-        {
-            switch (controller2Name)
-            {
-                case "Xbox 360 Controller":
-                    p2IsXbox360 = true;
-                    break;
-                case "Wireless Controller":  //PS4
-                    p2IsPS4 = true;
-                    break;
-                case "Logitech Dual Action":
-                    p2IsLogitech = true;
-                    break;
-                default:
-                    print("CONTROLLER ERROR");
-                    break;
+                controller1Name = Input.GetJoystickNames()[0];
+                controller2Name = Input.GetJoystickNames()[1];
             }
 
+
+            if (pMove.isPlayer1)
+            {
+                switch (controller1Name)
+                {
+                    case "Xbox 360 Controller":
+                        p1IsXbox360 = true;
+                        break;
+                    case "Wireless Controller":  //PS4
+                        p1IsPS4 = true;
+                        break;
+                    case "Logitech Dual Action":
+                        p1IsLogitech = true;
+                        break;
+                    default:
+                        print("CONTROLLER ERROR");
+                        break;
+                }
+            }
+            else
+            {
+                switch (controller2Name)
+                {
+                    case "Xbox 360 Controller":
+                        p2IsXbox360 = true;
+                        break;
+                    case "Wireless Controller":  //PS4
+                        p2IsPS4 = true;
+                        break;
+                    case "Logitech Dual Action":
+                        p2IsLogitech = true;
+                        break;
+                    default:
+                        print("CONTROLLER ERROR");
+                        break;
+                }
+
+            }
         }
 
     }
