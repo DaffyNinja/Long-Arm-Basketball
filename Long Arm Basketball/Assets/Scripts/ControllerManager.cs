@@ -19,6 +19,10 @@ public class ControllerManager : MonoBehaviour
     public bool moveLeft;
     public bool moveRight;
     public bool canJump;
+    public bool leftTriggerDown;
+    public bool rightStickR;
+    public bool rightStickL;
+    public bool grab;
 
     PlayerMove pMove;
 
@@ -50,7 +54,7 @@ public class ControllerManager : MonoBehaviour
                         p1IsLogitech = true;
                         break;
                     default:
-                        print("CONTROLLER ERROR");
+                        print("CONTROLLER 1 ERROR");
                         break;
                 }
             }
@@ -68,7 +72,7 @@ public class ControllerManager : MonoBehaviour
                         p2IsLogitech = true;
                         break;
                     default:
-                        print("CONTROLLER ERROR");
+                        print("CONTROLLER 2 ERROR");
                         break;
                 }
 
@@ -90,6 +94,7 @@ public class ControllerManager : MonoBehaviour
     //Xbox
     public void Xbox360Input()
     {
+        // Left Stick Move
         if (Input.GetAxis("Left Stick X") > 0.1f) // Right
         {
             moveRight = true;
@@ -104,6 +109,7 @@ public class ControllerManager : MonoBehaviour
             moveRight = false;
         }
 
+        // Jump
         if (pMove.isGrounded)
         {
             if (Input.GetButtonDown("A Button"))
@@ -115,7 +121,54 @@ public class ControllerManager : MonoBehaviour
         {
             canJump = false;
         }
+
+        // Trigger Down
+
     }
+
+    public void XboxButtons360Arms()
+    {
+
+        if (leftTriggerDown == false)
+        {
+            if (Input.GetAxis("Right Stick X") < -0.1f || Input.GetAxis("Right Stick Y") < -0.1f)
+            {
+                rightStickR = true;
+            }
+            else if (Input.GetAxis("Right Stick X") > 0.1f || Input.GetAxis("Right Stick Y") > 0.1f)
+            {
+                rightStickL = true;
+            }
+            else
+            {
+                rightStickL = false;
+                rightStickR = false;
+            }
+            //armObj.GetComponent<SpriteRenderer>().color = Color.green;
+        }
+
+
+        if (Input.GetAxis("Left Trigger") > 0)
+        {
+            leftTriggerDown = true;
+        }
+        else
+        {
+            leftTriggerDown = false;
+        }
+
+        // Grab
+        if (Input.GetButton("RB Button"))
+        {
+            grab = true;
+        }
+        else if(Input.GetButtonUp("RB Button"))
+        {
+            grab = false;
+        }
+
+    }
+
 
     //PS4
 
@@ -155,7 +208,7 @@ public class ControllerManager : MonoBehaviour
         {
             if (Input.GetKey(KeyCode.Joystick1Button1))
             {
-               // print("1"); // Logitech A
+                // print("1"); // Logitech A
                 canJump = true;
             }
         }

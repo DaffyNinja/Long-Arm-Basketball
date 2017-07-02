@@ -36,6 +36,8 @@ public class ArmMove : MonoBehaviour
 
     PlayerMove playMove;
 
+    ControllerManager controlMan;
+
 
     // Use this for initialization
     void Awake()
@@ -53,6 +55,8 @@ public class ArmMove : MonoBehaviour
         fArm = transform.GetChild(1).GetComponent<ForeArm>();
 
         playMove = GetComponentInParent<PlayerMove>();
+
+        controlMan = GetComponentInParent<ControllerManager>();
 
         //ballCol = GameObject.Find("Ball").GetComponent<CircleCollider2D>();
 
@@ -78,7 +82,7 @@ public class ArmMove : MonoBehaviour
         if (playMove.isPlayer1)  // Player 1
         {
             //Arm Move
-            if (playMove.isKeyboard)
+            if (playMove.isKeyboard) // Keyboard
             {
                 // Arm Rotate
                 if (Input.GetKey(KeyCode.I))
@@ -148,25 +152,17 @@ public class ArmMove : MonoBehaviour
             }
             else // Controller
             {
-                if (Input.GetAxis("Left Trigger") > 0)
-                {
-                    //print("LT");
+                controlMan.XboxButtons360Arms();
 
-                    leftTriggerDown = true;
-                }
-                else
+                if (controlMan.leftTriggerDown == false)
                 {
-                    leftTriggerDown = false;
-                }
-
-                if (leftTriggerDown == false)
-                {
-                    if (Input.GetAxis("Right Stick X") < -0.1f || Input.GetAxis("Right Stick Y") < -0.1f)
+                    if (controlMan.rightStickR)
                     {
                         transform.rotation = Quaternion.Slerp(transform.rotation, angleR, rotateSpeed * Time.deltaTime);
                     }
-                    else if (Input.GetAxis("Right Stick X") > 0.1f || Input.GetAxis("Right Stick Y") > 0.1f)
+                    else if (controlMan.rightStickL)
                     {
+                        print("New Control");
                         transform.rotation = Quaternion.Slerp(transform.rotation, angleL, rotateSpeed * Time.deltaTime);
                     }
 
@@ -179,7 +175,7 @@ public class ArmMove : MonoBehaviour
 
                 if (canGrab)
                 {
-                    if (Input.GetButton("RB Button"))
+                    if (controlMan.grab)
                     {
                         ballObj.GetComponent<Rigidbody2D>().simulated = false;
                         ballObj.transform.SetParent(handObj.transform);
@@ -188,11 +184,9 @@ public class ArmMove : MonoBehaviour
 
                         addBallForce = true;
                     }
-
-
                 }
 
-                if (Input.GetButtonUp("RB Button")) // Let go
+                if (controlMan.grab == false) // Let go
                 {
 
                     ballObj.GetComponent<Rigidbody2D>().simulated = true;
