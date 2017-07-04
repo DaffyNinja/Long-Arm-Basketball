@@ -162,7 +162,7 @@ public class ArmMove : MonoBehaviour
                     }
                     else if (controlMan.rightStickL)
                     {
-                        print("New Control");
+                        //print("New Control");
                         transform.rotation = Quaternion.Slerp(transform.rotation, angleL, rotateSpeed * Time.deltaTime);
                     }
 

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ControllerManager : MonoBehaviour
 {
+    public bool isSinglePlayer;
     [Header("Controllers")]
     public string controller1Name;
     public string controller2Name;
@@ -36,9 +37,11 @@ public class ControllerManager : MonoBehaviour
             for (int i = 0; i < Input.GetJoystickNames().Length; i++)
             {
                 controller1Name = Input.GetJoystickNames()[0];
-                controller2Name = Input.GetJoystickNames()[1];
+                if (isSinglePlayer == false)
+                {
+                    controller2Name = Input.GetJoystickNames()[1];
+                }
             }
-
 
             if (pMove.isPlayer1)
             {
@@ -122,30 +125,28 @@ public class ControllerManager : MonoBehaviour
             canJump = false;
         }
 
-        // Trigger Down
-
     }
 
     public void XboxButtons360Arms()
     {
 
-        if (leftTriggerDown == false)
+
+        if (Input.GetAxis("Right Stick X") < -0.1f || Input.GetAxis("Right Stick Y") < -0.1f)
         {
-            if (Input.GetAxis("Right Stick X") < -0.1f || Input.GetAxis("Right Stick Y") < -0.1f)
-            {
-                rightStickR = true;
-            }
-            else if (Input.GetAxis("Right Stick X") > 0.1f || Input.GetAxis("Right Stick Y") > 0.1f)
-            {
-                rightStickL = true;
-            }
-            else
-            {
-                rightStickL = false;
-                rightStickR = false;
-            }
-            //armObj.GetComponent<SpriteRenderer>().color = Color.green;
+            rightStickR = true;
         }
+        else if (Input.GetAxis("Right Stick X") > 0.1f || Input.GetAxis("Right Stick Y") > 0.1f)
+        {
+            rightStickL = true;
+        }
+        else
+        {
+            rightStickL = false;
+            rightStickR = false;
+        }
+        //armObj.GetComponent<SpriteRenderer>().color = Color.green;
+
+
 
 
         if (Input.GetAxis("Left Trigger") > 0)
@@ -162,7 +163,7 @@ public class ControllerManager : MonoBehaviour
         {
             grab = true;
         }
-        else if(Input.GetButtonUp("RB Button"))
+        else if (Input.GetButtonUp("RB Button"))
         {
             grab = false;
         }

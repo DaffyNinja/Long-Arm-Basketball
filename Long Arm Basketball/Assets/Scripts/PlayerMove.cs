@@ -64,29 +64,28 @@ public class PlayerMove : MonoBehaviour
 
             }
             else // Controller
-            {  
+            {
                 // Xbox 360
-                if (controlMan.p1IsXbox360)
+
+                controlMan.Xbox360Input();
+
+                if (controlMan.moveRight == true)
                 {
-                    controlMan.Xbox360Input();
-
-                    if (controlMan.moveRight == true)
-                    {
-                        Vector2 moveQuality = new Vector2(speed, 0);
-                        rig.velocity = new Vector2(moveQuality.x, rig.velocity.y);
-                    }
-                    else if (controlMan.moveLeft == true)
-                    {
-                        Vector2 moveQuality = new Vector2(-speed, 0);
-                        rig.velocity = new Vector2(moveQuality.x, rig.velocity.y);
-                    }
-
-                    if (controlMan.canJump == true)
-                    {
-                        Vector2 moveQuality = new Vector2(0, jumpForce);
-                        rig.velocity = new Vector2(rig.velocity.x, moveQuality.y);
-                    }
+                    Vector2 moveQuality = new Vector2(speed, 0);
+                    rig.velocity = new Vector2(moveQuality.x, rig.velocity.y);
                 }
+                else if (controlMan.moveLeft == true)
+                {
+                    Vector2 moveQuality = new Vector2(-speed, 0);
+                    rig.velocity = new Vector2(moveQuality.x, rig.velocity.y);
+                }
+
+                if (controlMan.canJump == true)
+                {
+                    Vector2 moveQuality = new Vector2(0, jumpForce);
+                    rig.velocity = new Vector2(rig.velocity.x, moveQuality.y);
+                }
+
 
             }
         }
@@ -108,7 +107,7 @@ public class PlayerMove : MonoBehaviour
             }
             else // Controller
             {
-               if(controlMan.p2IsLogitech)
+                if (controlMan.p2IsLogitech)
                 {
                     controlMan.Logitechinput();
 

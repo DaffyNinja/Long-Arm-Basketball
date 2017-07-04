@@ -22,6 +22,8 @@ public class ForeArm : MonoBehaviour
 
     PlayerMove playMove;
 
+    ControllerManager controlMan;
+
     //public GameObject armObj;
 
     // Use this for initialization
@@ -35,6 +37,8 @@ public class ForeArm : MonoBehaviour
         angleR.eulerAngles = new Vector3(0, 0, rightRotMax);
 
         playMove = GetComponentInParent<PlayerMove>();
+
+        controlMan = playMove.gameObject.GetComponent<ControllerManager>();
 
 
     }
@@ -68,14 +72,16 @@ public class ForeArm : MonoBehaviour
             }
             else  // Controller
             {
+                controlMan.XboxButtons360Arms();
+
                 //// Arm
-                if (aMove.leftTriggerDown == true)
+                if (controlMan.leftTriggerDown == true)
                 {
-                    if (Input.GetAxis("Right Stick Y") < -0.1f)
+                    if (controlMan.rightStickR == true) 
                     {
                         transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, 0, leftRotMax * Mathf.Sin(Time.deltaTime * rotateSpeed)), rotateSpeed * Time.deltaTime);
                     }
-                    else if (Input.GetAxis("Right Stick Y") > 0.1f)
+                    else if (controlMan.rightStickL == true)
                     {
                         transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, 0, rightRotMax * Mathf.Sin(Time.deltaTime * rotateSpeed)), rotateSpeed * Time.deltaTime);
                     }
