@@ -11,7 +11,9 @@ public class ArmMove : MonoBehaviour
     Quaternion angleL;
     Quaternion angleR;
 
-    public Vector2 ballForce;
+    [Header("Ball Throw")]
+    public Vector2 ballForceFoward;
+    public Vector2 ballForceBack;
     bool addBallForce;
 
     [Space(15)]
@@ -110,9 +112,10 @@ public class ArmMove : MonoBehaviour
                         ballObj.GetComponent<Rigidbody2D>().simulated = false;
                         ballObj.transform.SetParent(handObj.transform);
 
-                        ballObj.transform.position = new Vector3(handObj.transform.position.x + 1.5f, handObj.transform.position.y + 1.5f, handObj.transform.position.z);
+                        ballObj.transform.position = new Vector3(handObj.transform.position.x + 1f, handObj.transform.position.y + 1f, handObj.transform.position.z);
 
                         //ballObj.transform.position = handObj.transform.position;
+
                         addBallForce = true;
                     }
                 }
@@ -121,30 +124,38 @@ public class ArmMove : MonoBehaviour
                 {
                     //print("LET GO");
 
-                    ballObj.GetComponent<Rigidbody2D>().simulated = true;
-                    ballObj.transform.parent = null;
-                    // ballObj.GetComponent<Rigidbody2D>().AddForce(ballForce,ForceMode2D.Impulse);
-                    Physics2D.IgnoreCollision(ballObj.GetComponent<CircleCollider2D>(), handObj.GetComponent<CircleCollider2D>(), false);
+                   
 
-                    if (addBallForce)
+                    if (addBallForce) // Throw Ball
                     {
                         print("Throw");
 
-                        if (fArm.gameObject.transform.localEulerAngles.z > 200 && fArm.gameObject.transform.localEulerAngles.z < 320)
+                        if (fArm.gameObject.transform.localEulerAngles.z > 175 && fArm.gameObject.transform.localEulerAngles.z < 320)
                         {
-                           // print("FORWARD");
-                            ballObj.GetComponent<Rigidbody2D>().AddForce(ballForce, ForceMode2D.Impulse);
+                            print("FORWARD");
+
+                            ballObj.GetComponent<Rigidbody2D>().simulated = true;
+                            ballObj.transform.parent = null;
+                            Physics2D.IgnoreCollision(ballObj.GetComponent<CircleCollider2D>(), handObj.GetComponent<CircleCollider2D>(), false);
+
+                            ballObj.GetComponent<Rigidbody2D>().AddForce(ballForceFoward, ForceMode2D.Impulse);
                             addBallForce = false;
                         }
                         else
                         {
-                           // print("BACK");
-                            ballObj.GetComponent<Rigidbody2D>().AddForce(new Vector2(-ballForce.x,ballForce.y), ForceMode2D.Impulse);
+                            print("BACK");
+
+                            ballObj.GetComponent<Rigidbody2D>().simulated = true;
+                            ballObj.transform.parent = null;
+                            Physics2D.IgnoreCollision(ballObj.GetComponent<CircleCollider2D>(), handObj.GetComponent<CircleCollider2D>(), false);
+
+                            ballObj.GetComponent<Rigidbody2D>().AddForce(ballForceBack, ForceMode2D.Impulse);
                             addBallForce = false;
                         }
+
                     }
 
-                   // print(fArm.gameObject.transform.localEulerAngles.z);
+                    // print(fArm.gameObject.transform.localEulerAngles.z);
 
                     ballObj.GetComponent<Rigidbody2D>().angularVelocity = 3;
                     addBallForce = false;
@@ -195,8 +206,18 @@ public class ArmMove : MonoBehaviour
 
                     if (addBallForce == true)
                     {
-                        ballObj.GetComponent<Rigidbody2D>().AddForce(ballForce, ForceMode2D.Impulse);
-                        addBallForce = false;
+                        if (fArm.gameObject.transform.localEulerAngles.z > 200 && fArm.gameObject.transform.localEulerAngles.z < 320)
+                        {
+                            // print("FORWARD");
+                            ballObj.GetComponent<Rigidbody2D>().AddForce(ballForceFoward, ForceMode2D.Impulse);
+                            addBallForce = false;
+                        }
+                        else
+                        {
+                            // print("BACK");
+                            ballObj.GetComponent<Rigidbody2D>().AddForce(ballForceBack, ForceMode2D.Impulse);
+                            addBallForce = false;
+                        }
                     }
                 }
 
@@ -230,7 +251,7 @@ public class ArmMove : MonoBehaviour
 
                     if (addBallForce == true)
                     {
-                        ballObj.GetComponent<Rigidbody2D>().AddForce(ballForce, ForceMode2D.Impulse);
+                        //ballObj.GetComponent<Rigidbody2D>().AddForce(ballForce, ForceMode2D.Impulse);
                         addBallForce = false;
                     }
                 }
@@ -287,13 +308,13 @@ public class ArmMove : MonoBehaviour
                     {
                         if (transform.localEulerAngles.z <= 50)
                         {
-                            ballObj.GetComponent<Rigidbody2D>().AddForce(ballForce, ForceMode2D.Impulse);
+                            ballObj.GetComponent<Rigidbody2D>().AddForce(ballForceFoward, ForceMode2D.Impulse);
                             addBallForce = false;
                         }
                         else
                         {
 
-                            ballObj.GetComponent<Rigidbody2D>().AddForce(-ballForce, ForceMode2D.Impulse);
+                            ballObj.GetComponent<Rigidbody2D>().AddForce(ballForceBack, ForceMode2D.Impulse);
                             addBallForce = false;
                         }
                     }
