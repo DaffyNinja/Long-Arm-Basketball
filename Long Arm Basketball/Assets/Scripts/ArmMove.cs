@@ -31,7 +31,7 @@ public class ArmMove : MonoBehaviour
     public GameObject playerObj;
     CapsuleCollider2D playerCap;
 
-    bool canGrab;
+    bool grabed;
 
     public bool leftTriggerDown;
 
@@ -41,10 +41,18 @@ public class ArmMove : MonoBehaviour
 
     ControllerManager controlMan;
 
+    [Space(5)]
+    public Ball ballCS;
+    private bool throwBall;
+
+    Rigidbody2D ballRig;
+
 
     // Use this for initialization
     void Awake()
     {
+
+        ballRig = ballCS.gameObject.GetComponent<Rigidbody2D>();
 
         ballCol = ballObj.GetComponent<CircleCollider2D>();
         armCol = armObj.GetComponent<CapsuleCollider2D>();
@@ -61,119 +69,61 @@ public class ArmMove : MonoBehaviour
 
         controlMan = GetComponentInParent<ControllerManager>();
 
+    
+
         //ballCol = GameObject.Find("Ball").GetComponent<CircleCollider2D>();
 
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (armCol.IsTouching(playerCap))
         {
             Physics2D.IgnoreCollision(armCol, playerCap);
         }
 
-        if (handObj.GetComponent<CircleCollider2D>().IsTouching(ballCol))
+        // Ball
+        // Hold
+        if (Input.GetKey(KeyCode.Space) && ballCS.isTouchingHand)
         {
-            canGrab = true;
-        }
-        else
-        {
-            canGrab = false;
+            ballRig.GetComponent<Rigidbody2D>().simulated = false;
 
-            if (Input.GetKey(KeyCode.Space))
-            {
-                ballForceFowardYForce += 1 * Time.deltaTime;
-            }
+            grabed = true;
+
+            ballCS.gameObject.transform.position = new Vector2(handObj.transform.position.x + 0.5f, handObj.transform.position.y + 0.5f);
+            ballCS.gameObject.transform.parent = handObj.transform;
         }
 
-        if (playMove.isPlayer1)  // Player 1
+        if (Input.GetKeyUp(KeyCode.Space)) // throw
         {
-            //Arm Move
-            if (playMove.isKeyboard) // Keyboard
+            throwBall = true;
+
+            ballCS.gameObject.transform.parent = null;
+
+            ballRig.GetComponent<Rigidbody2D>().simulated = true;            
+        }
+
+        if (ballCS.isTouchingHand)
+        {
+            if (grabed)
             {
-                // Arm Rotate
-                if (Input.GetKey(KeyCode.I))
+                if (throwBall)
                 {
-                    transform.rotation = Quaternion.Slerp(transform.rotation, angleR, rotateSpeed * Time.deltaTime);
+                    print("Throw");
 
-                    armObj.GetComponent<SpriteRenderer>().color = Color.green;
+                    ballRig.GetComponent<Rigidbody2D>().AddForce(transform.forward);
 
-                }
-                else if (Input.GetKey(KeyCode.P))
-                {
-                    transform.rotation = Quaternion.Slerp(transform.rotation, angleL, rotateSpeed * Time.deltaTime);
+                    //ballRig.GetComponent<Rigidbody2D>().AddForce(new Vector2(75f, 10));
 
-                    armObj.GetComponent<SpriteRenderer>().color = Color.green;
-                }
-                else
-                {
-                    armObj.GetComponent<SpriteRenderer>().color = Color.white;
-                }
+                    throwBall = false;
 
-                if (canGrab) // Grab Ball
-                {
-                    if (Input.GetKey(KeyCode.Space)) // Hold
-                    {
-                        ballObj.GetComponent<Rigidbody2D>().simulated = false;
-                        ballObj.transform.SetParent(handObj.transform);
-
-                       // ballObj.transform.position = new Vector3(handObj.transform.position.x + 1f, handObj.transform.position.y + 1f, handObj.transform.position.z);
-
-                        //ballObj.transform.position = handObj.transform.position;
-
-                      
-
-                        addBallForce = true;
-                    }
-                }
-
-                if (Input.GetKeyUp(KeyCode.Space))
-                {
-                    //print("LET GO");
-
-                    ballObj.GetComponent<Rigidbody2D>().simulated = true;
-                    ballObj.transform.parent = null;
-                    Physics2D.IgnoreCollision(ballObj.GetComponent<CircleCollider2D>(), handObj.GetComponent<CircleCollider2D>(), false);
-
-                    if (addBallForce) // Throw Ball
-                    {
-                        print("Throw");
-
-
-                        ballObj.GetComponent<Rigidbody2D>().AddForce(new Vector2(ballForceFowardX,ballForceFowardYForce), ForceMode2D.Impulse);
-                
-
-                        ballForceFowardYForce = 0;
-
-                        addBallForce = false;
-
-                        //if (fArm.gameObject.transform.localEulerAngles.z > 175 && fArm.gameObject.transform.localEulerAngles.z < 320)
-                        //{
-                        //    print("FORWARD");
-
-                        //    ballObj.GetComponent<Rigidbody2D>().AddForce(ballForceFoward, ForceMode2D.Impulse);
-                        //    addBallForce = false;
-                        //}
-                        //else
-                        //{
-                        //    print("BACK");
-
-                        //    ballObj.GetComponent<Rigidbody2D>().AddForce(ballForceBack, ForceMode2D.Impulse);
-                        //    addBallForce = false;
-                        //}
-
-                    }
-
-                    // print(fArm.gameObject.transform.localEulerAngles.z);
-
-                    ballObj.GetComponent<Rigidbody2D>().angularVelocity = 3;
-                    addBallForce = false;
+                    grabed = false;
                 }
             }
+
         }
-
-
+      
     }
 
     void OnCollisionEnter2D(Collision2D col)
@@ -181,7 +131,6 @@ public class ArmMove : MonoBehaviour
         if (col.gameObject.name == "Ground")
         {
             gCol = col.gameObject.GetComponent<BoxCollider2D>();
-
         }
 
     }
