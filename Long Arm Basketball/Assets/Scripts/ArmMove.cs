@@ -51,36 +51,42 @@ public class ArmMove : MonoBehaviour
     // Use this for initialization
     void Awake()
     {
-
         ballRig = ballCS.gameObject.GetComponent<Rigidbody2D>();
-
-        ballCol = ballObj.GetComponent<CircleCollider2D>();
         armCol = armObj.GetComponent<CapsuleCollider2D>();
-        playerCap = playerObj.GetComponent<CapsuleCollider2D>();
-
-        addBallForce = false;
-
-        angleL.eulerAngles = new Vector3(0, 0, leftAngleMax);
-        angleR.eulerAngles = new Vector3(0, 0, rightAngleMax);
-
-        fArm = transform.GetChild(1).GetComponent<ForeArm>();
-
-        playMove = GetComponentInParent<PlayerMove>();
 
         controlMan = GetComponentInParent<ControllerManager>();
 
-    
-
-        //ballCol = GameObject.Find("Ball").GetComponent<CircleCollider2D>();
-
+        playMove = GetComponentInParent<PlayerMove>();
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
         if (armCol.IsTouching(playerCap))
         {
             Physics2D.IgnoreCollision(armCol, playerCap);
+        }
+
+        // Arm Rotate
+        if (playMove.isKeyboard)
+        {
+            if (Input.GetKey(KeyCode.I))
+            {
+                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, 0, rightAngleMax * Mathf.Sin(Time.deltaTime * rotateSpeed)), rotateSpeed * Time.deltaTime);
+
+                armObj.GetComponent<SpriteRenderer>().color = Color.green;
+
+            }
+            else if (Input.GetKey(KeyCode.P))
+            {
+                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, 0, leftAngleMax * Mathf.Sin(Time.deltaTime * rotateSpeed)), rotateSpeed * Time.deltaTime);
+
+                armObj.GetComponent<SpriteRenderer>().color = Color.green;
+            }
+            else
+            {
+                armObj.GetComponent<SpriteRenderer>().color = Color.white;
+            }
         }
 
         // Ball
@@ -110,9 +116,9 @@ public class ArmMove : MonoBehaviour
             {
                 if (throwBall)
                 {
-                    print("Throw");
+                    print("Throw New");
 
-                    ballRig.GetComponent<Rigidbody2D>().AddForce(transform.forward);
+                    ballRig.AddForce(new Vector2(125,75));
 
                     //ballRig.GetComponent<Rigidbody2D>().AddForce(new Vector2(75f, 10));
 
